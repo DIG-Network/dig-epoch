@@ -34,7 +34,7 @@ After completing a requirement: write tests, verify they pass, update TRACKING.y
 
 - [x] TYP-001 — EpochPhase enum and PhaseTransition struct
 - [x] TYP-002 — EpochInfo struct with all fields
-- [ ] TYP-003 — EpochSummary struct (immutable archive)
+- [x] TYP-003 — EpochSummary struct (immutable archive)
 - [x] TYP-004 — DfspCloseSnapshot struct
 - [x] TYP-005 — EpochEvent enum
 - [x] TYP-006 — EpochBlockLink struct

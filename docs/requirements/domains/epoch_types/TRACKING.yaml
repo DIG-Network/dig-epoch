@@ -23,10 +23,12 @@ items:
   - id: TYP-003
     section: "3.5"
     summary: "EpochSummary Struct"
-    status: gap
+    status: verified
     spec_ref: "SPEC.md#section-35"
-    tests: []
-    notes: ""
+    tests:
+      - tests/epoch_types/typ_003_test.rs
+    completion_date: "2026-04-16"
+    notes: "13-field immutable archive, From<EpochInfo> conversion, checkpoint_hash via Checkpoint::hash(). 7 tests."
   - id: TYP-004
     section: "3.6"
     summary: "DfspCloseSnapshot Struct"

@@ -280,3 +280,9 @@ path = "tests/epoch_types/typ_005_test.rs"
 [[test]]
 name = "typ_002_test"
 path = "tests/epoch_types/typ_002_test.rs"
+
+# TYP-003: EpochSummary struct — proves 13 fields, From<EpochInfo> conversion,
+# DFSP field preservation, checkpoint_hash, serde round-trip, clone.
+[[test]]
+name = "typ_003_test"
+path = "tests/epoch_types/typ_003_test.rs"
