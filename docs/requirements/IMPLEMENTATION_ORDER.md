@@ -59,12 +59,13 @@ After completing a requirement: write tests, verify they pass, update TRACKING.y
 
 ## Phase 6: Reward Economics
 
-- [ ] REW-001 — block_reward_at_height() with halving schedule
-- [ ] REW-002 — total_block_reward() with epoch-first-block bonus
-- [ ] REW-003 — proposer_fee_share() and burned_fee_remainder()
-- [ ] REW-004 — compute_reward_distribution() with 5-role split
-- [ ] REW-005 — Tail emission floor (MINIMUM_EPOCH_REWARD)
-- [ ] REW-006 — Halving interval boundary verification
+- [x] REW-001 — block_reward_at_height() with halving schedule
+- [x] REW-002 — total_block_reward() with epoch-first-block bonus
+- [x] REW-003 — proposer_fee_share() and burned_fee_remainder()
+- [x] REW-004 — compute_reward_distribution() with 5-role split
+- [x] REW-005 — Tail emission floor (MINIMUM_EPOCH_REWARD)
+- [x] REW-006 — Halving interval boundary verification
+- [x] REW-007 — RewardDistribution struct (tracked in reward_economics/TRACKING.yaml)
 
 ## Phase 7: Epoch Manager
 

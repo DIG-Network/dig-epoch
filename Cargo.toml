@@ -350,3 +350,38 @@ path = "tests/phase_machine/phs_003_test.rs"
 [[test]]
 name = "phs_004_test"
 path = "tests/phase_machine/phs_004_test.rs"
+
+# REW-001: block_reward_at_height — halving schedule (4 halvings to tail emission).
+[[test]]
+name = "rew_001_test"
+path = "tests/reward_economics/rew_001_test.rs"
+
+# REW-002: total_block_reward — base reward + EPOCH_FIRST_BLOCK_BONUS.
+[[test]]
+name = "rew_002_test"
+path = "tests/reward_economics/rew_002_test.rs"
+
+# REW-003: proposer_fee_share / burned_fee_remainder — 50/50 fee split.
+[[test]]
+name = "rew_003_test"
+path = "tests/reward_economics/rew_003_test.rs"
+
+# REW-004: compute_reward_distribution — 5-role split with integer-rounding invariant.
+[[test]]
+name = "rew_004_test"
+path = "tests/reward_economics/rew_004_test.rs"
+
+# REW-005: epoch_reward_with_floor — MINIMUM_EPOCH_REWARD floor for tail emission.
+[[test]]
+name = "rew_005_test"
+path = "tests/reward_economics/rew_005_test.rs"
+
+# REW-006: halving boundary verification — boundary heights match expected rewards.
+[[test]]
+name = "rew_006_test"
+path = "tests/reward_economics/rew_006_test.rs"
+
+# REW-007: RewardDistribution struct — 8 fields, Debug, Clone.
+[[test]]
+name = "rew_007_test"
+path = "tests/reward_economics/rew_007_test.rs"

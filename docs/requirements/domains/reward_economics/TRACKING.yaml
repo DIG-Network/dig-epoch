@@ -5,49 +5,63 @@ items:
   - id: REW-001
     section: "8.1"
     summary: "block_reward_at_height with Halving"
-    status: gap
+    status: verified
     spec_ref: "SPEC.md#section-81"
-    tests: []
-    notes: ""
+    tests:
+      - tests/reward_economics/rew_001_test.rs
+    completion_date: "2026-04-16"
+    notes: "4-halving schedule with bit-shift. 8 tests."
   - id: REW-002
     section: "8.2"
     summary: "total_block_reward with Bonus"
-    status: gap
+    status: verified
     spec_ref: "SPEC.md#section-82"
-    tests: []
-    notes: ""
+    tests:
+      - tests/reward_economics/rew_002_test.rs
+    completion_date: "2026-04-16"
+    notes: "base + EPOCH_FIRST_BLOCK_BONUS when is_first_of_epoch. 6 tests."
   - id: REW-003
     section: "8.3"
     summary: "Fee Distribution"
-    status: gap
+    status: verified
     spec_ref: "SPEC.md#section-83"
-    tests: []
-    notes: ""
+    tests:
+      - tests/reward_economics/rew_003_test.rs
+    completion_date: "2026-04-16"
+    notes: "proposer_fee_share / burned_fee_remainder, sum invariant verified. 7 tests."
   - id: REW-004
     section: "8.4"
     summary: "Epoch Reward Distribution (5-Role Split)"
-    status: gap
+    status: verified
     spec_ref: "SPEC.md#section-84"
-    tests: []
-    notes: ""
+    tests:
+      - tests/reward_economics/rew_004_test.rs
+    completion_date: "2026-04-16"
+    notes: "Attester absorbs rounding dust to guarantee sum == total_reward. 8 tests."
   - id: REW-005
     section: "8.1"
     summary: "Tail Emission Floor"
-    status: gap
+    status: verified
     spec_ref: "SPEC.md#section-81"
-    tests: []
-    notes: ""
+    tests:
+      - tests/reward_economics/rew_005_test.rs
+    completion_date: "2026-04-16"
+    notes: "epoch_reward_with_floor raises to MINIMUM_EPOCH_REWARD. 7 tests."
   - id: REW-006
     section: "8.1"
     summary: "Halving Boundaries"
-    status: gap
+    status: verified
     spec_ref: "SPEC.md#section-81"
-    tests: []
-    notes: ""
+    tests:
+      - tests/reward_economics/rew_006_test.rs
+    completion_date: "2026-04-16"
+    notes: "Boundary heights at each halving. interval_relationship test omitted (known spec inconsistency: 315_576*32 != 94_608_000). 8 tests."
   - id: REW-007
     section: "3.12"
     summary: "RewardDistribution Struct"
-    status: gap
+    status: verified
     spec_ref: "SPEC.md#section-312"
-    tests: []
-    notes: ""
+    tests:
+      - tests/reward_economics/rew_007_test.rs
+    completion_date: "2026-04-16"
+    notes: "8-field struct in types/reward.rs, Debug/Clone. 3 tests."
