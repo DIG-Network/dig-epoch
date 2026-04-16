@@ -33,11 +33,12 @@ After completing a requirement: write tests, verify they pass, update TRACKING.y
 ## Phase 3: Epoch Types
 
 - [x] TYP-001 — EpochPhase enum and PhaseTransition struct
-- [ ] TYP-002 — EpochInfo struct with all fields
+- [x] TYP-002 — EpochInfo struct with all fields
 - [ ] TYP-003 — EpochSummary struct (immutable archive)
-- [ ] TYP-004 — DfspCloseSnapshot struct
-- [ ] TYP-005 — EpochEvent enum
-- [ ] TYP-006 — EpochBlockLink struct
+- [x] TYP-004 — DfspCloseSnapshot struct
+- [x] TYP-005 — EpochEvent enum
+- [x] TYP-006 — EpochBlockLink struct
+- [x] TYP-007 — EpochStats struct
 
 ## Phase 4: Height-Epoch Arithmetic
 

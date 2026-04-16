@@ -36,3 +36,30 @@
 /// [`tests/crate_structure/str_002_test.rs`](../../../tests/crate_structure/str_002_test.rs).
 #[doc(hidden)]
 pub const STR_002_MODULE_PRESENT: () = ();
+
+use chia_protocol::Bytes32;
+
+// -----------------------------------------------------------------------------
+// TYP-004 — DfspCloseSnapshot
+// -----------------------------------------------------------------------------
+
+/// DFSP state snapshot captured at epoch close, before archival.
+///
+/// Spec ref: SPEC §3.6 / TYP-004.
+#[derive(Debug, Clone, Copy)]
+pub struct DfspCloseSnapshot {
+    /// Collateral registry SMT root at close.
+    pub collateral_registry_root: Bytes32,
+    /// CID lifecycle state root at close.
+    pub cid_state_root: Bytes32,
+    /// Node registry SMT root at close.
+    pub node_registry_root: Bytes32,
+    /// Cumulative namespace root at close.
+    pub namespace_epoch_root: Bytes32,
+    /// Total DFSP issuance this epoch (mojos).
+    pub dfsp_issuance_total: u64,
+    /// Active CIDs at close.
+    pub active_cid_count: u32,
+    /// Active storage nodes at close.
+    pub active_node_count: u32,
+}

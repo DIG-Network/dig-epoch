@@ -251,3 +251,32 @@ path = "tests/error_types/err_001_test.rs"
 [[test]]
 name = "err_003_test"
 path = "tests/error_types/err_003_test.rs"
+
+# TYP-004: DfspCloseSnapshot — proves 7-field struct with Debug/Clone/Copy and
+# correct independent-copy semantics.
+[[test]]
+name = "typ_004_test"
+path = "tests/epoch_types/typ_004_test.rs"
+
+# TYP-006: EpochBlockLink — proves 2-field Bytes32 struct with Debug/Clone/
+# Serialize/Deserialize and bincode round-trip.
+[[test]]
+name = "typ_006_test"
+path = "tests/epoch_types/typ_006_test.rs"
+
+# TYP-007: EpochStats — proves 5 u64 fields, Default zeros all, Debug/Clone.
+[[test]]
+name = "typ_007_test"
+path = "tests/epoch_types/typ_007_test.rs"
+
+# TYP-005: EpochEvent enum — proves all 4 variants (EpochStarted, PhaseChanged,
+# EpochFinalized, EpochFailed) with Debug and Clone.
+[[test]]
+name = "typ_005_test"
+path = "tests/epoch_types/typ_005_test.rs"
+
+# TYP-002: EpochInfo struct — proves all 17 fields, new() defaults, 10 methods,
+# calculate_phase() for all 4 phases, progress_percentage(), clone, serde round-trip.
+[[test]]
+name = "typ_002_test"
+path = "tests/epoch_types/typ_002_test.rs"

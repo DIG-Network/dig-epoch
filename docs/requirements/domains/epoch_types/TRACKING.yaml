@@ -14,10 +14,12 @@ items:
   - id: TYP-002
     section: "3.4"
     summary: "EpochInfo Struct"
-    status: gap
+    status: verified
     spec_ref: "SPEC.md#section-34"
-    tests: []
-    notes: ""
+    tests:
+      - tests/epoch_types/typ_002_test.rs
+    completion_date: "2026-04-16"
+    notes: "17-field struct, new() constructor, 10 methods (calculate_phase, target_blocks, can_produce_blocks, can_submit_checkpoint, is_complete, is_finalized, record_block, set_checkpoint, progress_percentage). 17 tests."
   - id: TYP-003
     section: "3.5"
     summary: "EpochSummary Struct"
@@ -28,28 +30,36 @@ items:
   - id: TYP-004
     section: "3.6"
     summary: "DfspCloseSnapshot Struct"
-    status: gap
+    status: verified
     spec_ref: "SPEC.md#section-36"
-    tests: []
-    notes: ""
+    tests:
+      - tests/epoch_types/typ_004_test.rs
+    completion_date: "2026-04-16"
+    notes: "7-field struct (4 Bytes32 roots + 3 counters), Debug/Clone/Copy. 4 basic tests; cross-dependency tests (apply_to_epoch_info, survives_archival) deferred until TYP-002/003 done."
   - id: TYP-005
     section: "3.7"
     summary: "EpochEvent Enum"
-    status: gap
+    status: verified
     spec_ref: "SPEC.md#section-37"
-    tests: []
-    notes: ""
+    tests:
+      - tests/epoch_types/typ_005_test.rs
+    completion_date: "2026-04-16"
+    notes: "4 variants (EpochStarted, PhaseChanged, EpochFinalized, EpochFailed), Debug/Clone. 6 tests."
   - id: TYP-006
     section: "3.13"
     summary: "EpochBlockLink Struct"
-    status: gap
+    status: verified
     spec_ref: "SPEC.md#section-313"
-    tests: []
-    notes: ""
+    tests:
+      - tests/epoch_types/typ_006_test.rs
+    completion_date: "2026-04-16"
+    notes: "2-field Bytes32 struct, Debug/Clone/Serialize/Deserialize, bincode round-trip. 4 tests."
   - id: TYP-007
     section: "3.8"
     summary: "EpochStats Struct"
-    status: gap
+    status: verified
     spec_ref: "SPEC.md#section-38"
-    tests: []
-    notes: ""
+    tests:
+      - tests/epoch_types/typ_007_test.rs
+    completion_date: "2026-04-16"
+    notes: "5 u64 fields, Default zeros all, Debug/Clone. 4 tests."

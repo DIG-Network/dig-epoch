@@ -32,3 +32,21 @@
 /// [`tests/crate_structure/str_002_test.rs`](../../../tests/crate_structure/str_002_test.rs).
 #[doc(hidden)]
 pub const STR_002_MODULE_PRESENT: () = ();
+
+use chia_protocol::Bytes32;
+use serde::{Deserialize, Serialize};
+
+// -----------------------------------------------------------------------------
+// TYP-006 — EpochBlockLink
+// -----------------------------------------------------------------------------
+
+/// Parent-to-child relationship between consecutive blocks within an epoch.
+///
+/// Spec ref: SPEC §3.13 / TYP-006.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct EpochBlockLink {
+    /// Hash of the parent block.
+    pub parent_hash: Bytes32,
+    /// Hash of the current block.
+    pub block_hash: Bytes32,
+}
