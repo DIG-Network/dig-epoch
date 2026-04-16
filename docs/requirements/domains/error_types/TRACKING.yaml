@@ -1,0 +1,25 @@
+domain_id: error_types
+normative: ./NORMATIVE.md
+verification: ./VERIFICATION.md
+items:
+  - id: ERR-001
+    section: "10.1"
+    summary: "EpochError Enum"
+    status: gap
+    spec_ref: "SPEC.md#section-101"
+    tests: []
+    notes: ""
+  - id: ERR-002
+    section: "10.2"
+    summary: "CheckpointCompetitionError Enum"
+    status: gap
+    spec_ref: "SPEC.md#section-102"
+    tests: []
+    notes: ""
+  - id: ERR-003
+    section: "10"
+    summary: "Error Conversions and Display"
+    status: gap
+    spec_ref: "SPEC.md#section-10"
+    tests: []
+    notes: ""

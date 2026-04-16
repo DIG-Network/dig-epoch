@@ -1,0 +1,35 @@
+domain_id: phase_machine
+normative: NORMATIVE.md
+verification: VERIFICATION.md
+items:
+  - id: PHS-001
+    section: "L1 Progress Phase Calculation"
+    summary: "l1_progress_phase_for_network_epoch() computes phase from L1 progress percentage: <50% BlockProduction, 50-75% Checkpoint, 75-100% Finalization, >=100% Complete"
+    status: gap
+    spec_ref: "Section 4.2"
+    tests: []
+    notes: ""
+
+  - id: PHS-002
+    section: "EpochManager Phase Tracking"
+    summary: "current_phase() returns EpochInfo.phase; update_phase(l1_height) recalculates and returns Option<PhaseTransition>"
+    status: gap
+    spec_ref: "Section 6.3"
+    tests: []
+    notes: ""
+
+  - id: PHS-003
+    section: "Phase Transition Events"
+    summary: "should_advance() true when Complete; PhaseTransition records epoch/from/to/l1_height; EpochEvent::PhaseChanged emitted"
+    status: gap
+    spec_ref: "Section 4.3"
+    tests: []
+    notes: ""
+
+  - id: PHS-004
+    section: "Phase Boundary Enforcement"
+    summary: "Phase-gated operations reject with EpochError::PhaseMismatch { expected, got } when called in wrong phase"
+    status: gap
+    spec_ref: "Section 4.1"
+    tests: []
+    notes: ""

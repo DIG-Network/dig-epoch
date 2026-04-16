@@ -1,0 +1,114 @@
+schema_version: 1
+
+status_values:
+  active: "Requirements in use for dig-epoch implementation"
+  planned: "Scoped; not yet verified"
+
+domains:
+  - id: crate_structure
+    title: "Crate Structure"
+    summary: "Cargo.toml with DIG/Chia crate dependencies, module hierarchy, public re-exports, EpochManager constructor, test infrastructure."
+    status: planned
+    paths:
+      normative: domains/crate_structure/NORMATIVE.md
+      verification: domains/crate_structure/VERIFICATION.md
+      tracking: domains/crate_structure/TRACKING.yaml
+
+  - id: constants
+    title: "Constants"
+    summary: "Epoch geometry (BLOCKS_PER_EPOCH=32, EPOCH_L1_BLOCKS=32, GENESIS_HEIGHT=1), phase boundaries (50/75/100%), reward economics (initial 0.32 L2, halvings, tail 0.02 L2), fee/reward distribution percentages, DFSP parameters, consensus thresholds, slashing/withdrawal constants."
+    status: planned
+    paths:
+      normative: domains/constants/NORMATIVE.md
+      verification: domains/constants/VERIFICATION.md
+      tracking: domains/constants/TRACKING.yaml
+
+  - id: epoch_types
+    title: "Epoch Types"
+    summary: "EpochPhase enum (4 phases), PhaseTransition struct, EpochInfo (mutable current epoch state), EpochSummary (immutable archive), DfspCloseSnapshot, EpochEvent enum, EpochBlockLink."
+    status: planned
+    paths:
+      normative: domains/epoch_types/NORMATIVE.md
+      verification: domains/epoch_types/VERIFICATION.md
+      tracking: domains/epoch_types/TRACKING.yaml
+
+  - id: height_arithmetic
+    title: "Height-Epoch Arithmetic"
+    summary: "Pure stateless functions: epoch_for_block_height, first_height_in_epoch, epoch_checkpoint_height, is_checkpoint_class_block, ensure_checkpoint_block_empty, l1_range_for_epoch. Height-epoch round-trip identity."
+    status: planned
+    paths:
+      normative: domains/height_arithmetic/NORMATIVE.md
+      verification: domains/height_arithmetic/VERIFICATION.md
+      tracking: domains/height_arithmetic/TRACKING.yaml
+
+  - id: phase_machine
+    title: "Phase State Machine"
+    summary: "L1-driven four-phase state machine (BlockProduction→Checkpoint→Finalization→Complete). l1_progress_phase_for_network_epoch(), EpochManager phase tracking, phase transition events, PhaseMismatch enforcement."
+    status: planned
+    paths:
+      normative: domains/phase_machine/NORMATIVE.md
+      verification: domains/phase_machine/VERIFICATION.md
+      tracking: domains/phase_machine/TRACKING.yaml
+
+  - id: epoch_manager
+    title: "Epoch Manager"
+    summary: "EpochManager struct with interior mutability (RwLock). Construction, record_block, set_current_epoch_chain_totals, advance_epoch, DFSP close snapshot, query API (get_epoch_info, get_epoch_summary, recent_summaries, total_stats), epoch history management."
+    status: planned
+    paths:
+      normative: domains/epoch_manager/NORMATIVE.md
+      verification: domains/epoch_manager/VERIFICATION.md
+      tracking: domains/epoch_manager/TRACKING.yaml
+
+  - id: checkpoint_competition
+    title: "Checkpoint Competition"
+    summary: "CheckpointCompetition struct, CompetitionStatus enum (Pending→Collecting→WinnerSelected→Finalized/Failed). start_checkpoint_competition, submit_checkpoint with score comparison, finalize_competition, get_competition. Score = stake_percentage × block_count."
+    status: planned
+    paths:
+      normative: domains/checkpoint_competition/NORMATIVE.md
+      verification: domains/checkpoint_competition/VERIFICATION.md
+      tracking: domains/checkpoint_competition/TRACKING.yaml
+
+  - id: reward_economics
+    title: "Reward Economics"
+    summary: "block_reward_at_height with 4-halving schedule, total_block_reward with epoch-first-block bonus, proposer_fee_share (50%) and burned_fee_remainder (50%), compute_reward_distribution (5-role split: 10% proposer, 80% attester, 3% EF spawner, 4% score submitter, 3% finalizer), tail emission floor, halving boundaries."
+    status: planned
+    paths:
+      normative: domains/reward_economics/NORMATIVE.md
+      verification: domains/reward_economics/VERIFICATION.md
+      tracking: domains/reward_economics/TRACKING.yaml
+
+  - id: verification
+    title: "Verification"
+    summary: "compute_epoch_block_root via chia-sdk-types::MerkleTree, epoch_block_inclusion_proof via MerkleProof, compute_epoch_withdrawals_root via chia-consensus::compute_merkle_set_root, EpochCheckpointData/EpochCheckpointSignMaterial, stored_checkpoint_from_epoch_sign_material_with_aggregate_v1."
+    status: planned
+    paths:
+      normative: domains/verification/NORMATIVE.md
+      verification: domains/verification/VERIFICATION.md
+      tracking: domains/verification/TRACKING.yaml
+
+  - id: dfsp_processing
+    title: "DFSP Processing"
+    summary: "DfspEpochBurnPolicyV1 and burn context, storage proof evaluation and issuance preview, epoch boundary finalize preview and staged outputs, finalize roots commitment digest, DFSP activation control (is_dfsp_active_at_height), namespace rollup and tail roots computation."
+    status: planned
+    paths:
+      normative: domains/dfsp_processing/NORMATIVE.md
+      verification: domains/dfsp_processing/VERIFICATION.md
+      tracking: domains/dfsp_processing/TRACKING.yaml
+
+  - id: error_types
+    title: "Error Types"
+    summary: "EpochError enum (EpochNotComplete, NoFinalizedCheckpoint, CheckpointBlockNotEmpty, PhaseMismatch, EpochMismatch, InvalidHeight, DfspNotActive, DfspBoundary, Competition). CheckpointCompetitionError enum. From conversions."
+    status: planned
+    paths:
+      normative: domains/error_types/NORMATIVE.md
+      verification: domains/error_types/VERIFICATION.md
+      tracking: domains/error_types/TRACKING.yaml
+
+  - id: serialization
+    title: "Serialization"
+    summary: "Bincode serialization for all epoch types (EpochInfo, EpochSummary, DfspCloseSnapshot, CheckpointCompetition, RewardDistribution, EpochCheckpointData). to_bytes/from_bytes conventions. Round-trip integrity."
+    status: planned
+    paths:
+      normative: domains/serialization/NORMATIVE.md
+      verification: domains/serialization/VERIFICATION.md
+      tracking: domains/serialization/TRACKING.yaml

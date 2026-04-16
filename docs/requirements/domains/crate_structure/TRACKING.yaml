@@ -1,0 +1,39 @@
+domain_id: crate_structure
+normative: ./NORMATIVE.md
+verification: ./VERIFICATION.md
+items:
+  - id: STR-001
+    section: "1.2"
+    summary: "Cargo.toml Dependencies"
+    status: gap
+    spec_ref: "SPEC.md#section-12"
+    tests: []
+    notes: ""
+  - id: STR-002
+    section: "13"
+    summary: "Module Hierarchy"
+    status: gap
+    spec_ref: "SPEC.md#section-13"
+    tests: []
+    notes: ""
+  - id: STR-003
+    section: "12"
+    summary: "Public Re-exports"
+    status: gap
+    spec_ref: "SPEC.md#section-12"
+    tests: []
+    notes: ""
+  - id: STR-004
+    section: "6.2"
+    summary: "EpochManager Constructor"
+    status: gap
+    spec_ref: "SPEC.md#section-62"
+    tests: []
+    notes: ""
+  - id: STR-005
+    section: "14"
+    summary: "Test Infrastructure"
+    status: gap
+    spec_ref: "SPEC.md#section-14"
+    tests: []
+    notes: ""

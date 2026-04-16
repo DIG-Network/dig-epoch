@@ -1,0 +1,39 @@
+domain_id: verification
+normative: ./NORMATIVE.md
+verification: ./VERIFICATION.md
+items:
+  - id: VER-001
+    section: "7.1"
+    summary: "Epoch Block Root"
+    status: gap
+    spec_ref: "SPEC.md#section-71"
+    tests: []
+    notes: ""
+  - id: VER-002
+    section: "7.2"
+    summary: "Block Inclusion Proof"
+    status: gap
+    spec_ref: "SPEC.md#section-72"
+    tests: []
+    notes: ""
+  - id: VER-003
+    section: "7.3"
+    summary: "Epoch Withdrawals Root"
+    status: gap
+    spec_ref: "SPEC.md#section-73"
+    tests: []
+    notes: ""
+  - id: VER-004
+    section: "7.4"
+    summary: "Checkpoint Data and Sign Material"
+    status: gap
+    spec_ref: "SPEC.md#section-74"
+    tests: []
+    notes: ""
+  - id: VER-005
+    section: "7.6"
+    summary: "Aggregate Signature Construction"
+    status: gap
+    spec_ref: "SPEC.md#section-76"
+    tests: []
+    notes: ""

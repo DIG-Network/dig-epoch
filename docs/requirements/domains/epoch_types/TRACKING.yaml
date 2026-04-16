@@ -1,0 +1,53 @@
+domain_id: epoch_types
+normative: ./NORMATIVE.md
+verification: ./VERIFICATION.md
+items:
+  - id: TYP-001
+    section: "3.2"
+    summary: "EpochPhase and PhaseTransition"
+    status: gap
+    spec_ref: "SPEC.md#section-32"
+    tests: []
+    notes: ""
+  - id: TYP-002
+    section: "3.4"
+    summary: "EpochInfo Struct"
+    status: gap
+    spec_ref: "SPEC.md#section-34"
+    tests: []
+    notes: ""
+  - id: TYP-003
+    section: "3.5"
+    summary: "EpochSummary Struct"
+    status: gap
+    spec_ref: "SPEC.md#section-35"
+    tests: []
+    notes: ""
+  - id: TYP-004
+    section: "3.6"
+    summary: "DfspCloseSnapshot Struct"
+    status: gap
+    spec_ref: "SPEC.md#section-36"
+    tests: []
+    notes: ""
+  - id: TYP-005
+    section: "3.7"
+    summary: "EpochEvent Enum"
+    status: gap
+    spec_ref: "SPEC.md#section-37"
+    tests: []
+    notes: ""
+  - id: TYP-006
+    section: "3.13"
+    summary: "EpochBlockLink Struct"
+    status: gap
+    spec_ref: "SPEC.md#section-313"
+    tests: []
+    notes: ""
+  - id: TYP-007
+    section: "3.8"
+    summary: "EpochStats Struct"
+    status: gap
+    spec_ref: "SPEC.md#section-38"
+    tests: []
+    notes: ""

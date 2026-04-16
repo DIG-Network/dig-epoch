@@ -1,0 +1,25 @@
+domain_id: serialization
+normative: ./NORMATIVE.md
+verification: ./VERIFICATION.md
+items:
+  - id: SER-001
+    section: "11.1"
+    summary: "Bincode Serialization for All Types"
+    status: gap
+    spec_ref: "SPEC.md#section-111"
+    tests: []
+    notes: ""
+  - id: SER-002
+    section: "11.2"
+    summary: "to_bytes and from_bytes Conventions"
+    status: gap
+    spec_ref: "SPEC.md#section-112"
+    tests: []
+    notes: ""
+  - id: SER-003
+    section: "14.9"
+    summary: "Round-Trip Integrity"
+    status: gap
+    spec_ref: "SPEC.md#section-149"
+    tests: []
+    notes: ""

@@ -1,0 +1,67 @@
+domain_id: epoch_manager
+normative: NORMATIVE.md
+verification: VERIFICATION.md
+items:
+  - id: MGR-001
+    section: "EpochManager Struct"
+    summary: "EpochManager uses parking_lot::RwLock<EpochManagerInner> with network_id, genesis_l1_height, current_epoch, competition, summaries"
+    status: gap
+    spec_ref: "Section 6.1"
+    tests: []
+    notes: ""
+
+  - id: MGR-002
+    section: "record_block"
+    summary: "record_block increments blocks_produced, total_fees, total_transactions; requires BlockProduction phase"
+    status: gap
+    spec_ref: "Section 6.4"
+    tests: []
+    notes: ""
+
+  - id: MGR-003
+    section: "set_current_epoch_chain_totals"
+    summary: "Overwrites blocks_produced, total_fees, total_transactions for resync/correction without incrementing"
+    status: gap
+    spec_ref: "Section 6.4"
+    tests: []
+    notes: ""
+
+  - id: MGR-004
+    section: "advance_epoch"
+    summary: "Verifies Complete phase and finalized checkpoint, archives EpochSummary, creates new EpochInfo for epoch+1, resets competition"
+    status: gap
+    spec_ref: "Section 6.7"
+    tests: []
+    notes: ""
+
+  - id: MGR-005
+    section: "Query Methods"
+    summary: "get_epoch_info, get_epoch_summary, recent_summaries, total_stats, get_rewards query methods"
+    status: gap
+    spec_ref: "Section 6.9"
+    tests: []
+    notes: ""
+
+  - id: MGR-006
+    section: "DFSP Close Snapshot"
+    summary: "set_current_epoch_dfsp_close_snapshot sets DFSP close data on current EpochInfo; requires Finalization phase"
+    status: gap
+    spec_ref: "Section 6.6"
+    tests: []
+    notes: ""
+
+  - id: MGR-007
+    section: "Epoch History Management"
+    summary: "Completed epochs archived as EpochSummary in order; append-only; recent_summaries from tail"
+    status: gap
+    spec_ref: "Section 6.7"
+    tests: []
+    notes: ""
+
+  - id: MGR-008
+    section: "Core Instance Methods"
+    summary: "current_epoch, current_epoch_info, current_phase, genesis_l1_height, network_id, epoch_for_l1_height, l1_range_for_epoch, store_rewards"
+    status: gap
+    spec_ref: "Sections 6.3, 6.8, 6.9"
+    tests: []
+    notes: ""

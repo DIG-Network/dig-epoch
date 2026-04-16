@@ -1,0 +1,60 @@
+domain_id: dfsp_processing
+normative: ./NORMATIVE.md
+verification: ./VERIFICATION.md
+items:
+  - id: DFS-001
+    section: "9.2"
+    summary: "Burn Policy"
+    status: gap
+    spec_ref: "SPEC.md#section-92"
+    tests: []
+    notes: ""
+  - id: DFS-002
+    section: "9.3"
+    summary: "Storage Proof and Issuance"
+    status: gap
+    spec_ref: "SPEC.md#section-93"
+    tests: []
+    notes: ""
+  - id: DFS-003
+    section: "9.1"
+    summary: "Boundary Finalize and Staged Outputs"
+    status: gap
+    spec_ref: "SPEC.md#section-91"
+    tests: []
+    notes: ""
+  - id: DFS-004
+    section: "9.4"
+    summary: "Finalize Roots Commitment Digest"
+    status: gap
+    spec_ref: "SPEC.md#section-94"
+    tests: []
+    notes: ""
+  - id: DFS-005
+    section: "9.7"
+    summary: "DFSP Activation Control"
+    status: gap
+    spec_ref: "SPEC.md#section-97"
+    tests: []
+    notes: ""
+  - id: DFS-006
+    section: "9.5"
+    summary: "Namespace Rollup and Tail Roots"
+    status: gap
+    spec_ref: "SPEC.md#section-95"
+    tests: []
+    notes: ""
+  - id: DFS-007
+    section: "9.2"
+    summary: "Parse Burn Policy Schedule"
+    status: gap
+    spec_ref: "SPEC.md#section-92"
+    tests: []
+    notes: ""
+  - id: DFS-008
+    section: "9.3"
+    summary: "Storage Proof Evaluation Step"
+    status: gap
+    spec_ref: "SPEC.md#section-93"
+    tests: []
+    notes: ""

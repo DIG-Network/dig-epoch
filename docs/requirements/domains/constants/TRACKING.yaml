@@ -1,0 +1,46 @@
+domain_id: constants
+normative: ./NORMATIVE.md
+verification: ./VERIFICATION.md
+items:
+  - id: CON-001
+    section: "2.1"
+    summary: "Epoch Geometry"
+    status: gap
+    spec_ref: "SPEC.md#section-21"
+    tests: []
+    notes: ""
+  - id: CON-002
+    section: "2.2"
+    summary: "Phase Boundaries"
+    status: gap
+    spec_ref: "SPEC.md#section-22"
+    tests: []
+    notes: ""
+  - id: CON-003
+    section: "2.3"
+    summary: "Reward Economics Constants"
+    status: gap
+    spec_ref: "SPEC.md#section-23"
+    tests: []
+    notes: ""
+  - id: CON-004
+    section: "2.3"
+    summary: "Fee and Reward Distribution"
+    status: gap
+    spec_ref: "SPEC.md#section-23"
+    tests: []
+    notes: ""
+  - id: CON-005
+    section: "2.4-2.6"
+    summary: "DFSP, Consensus, Slashing Constants"
+    status: gap
+    spec_ref: "SPEC.md#section-24"
+    tests: []
+    notes: ""
+  - id: CON-006
+    section: "7.1"
+    summary: "Sentinel Constants"
+    status: gap
+    spec_ref: "SPEC.md#section-71"
+    tests: []
+    notes: ""

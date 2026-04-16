@@ -1,0 +1,53 @@
+domain_id: height_arithmetic
+normative: ./NORMATIVE.md
+verification: ./VERIFICATION.md
+items:
+  - id: HEA-001
+    section: "5.1"
+    summary: "epoch_for_block_height"
+    status: gap
+    spec_ref: "SPEC.md#section-51"
+    tests: []
+    notes: ""
+  - id: HEA-002
+    section: "5.1"
+    summary: "first_height and checkpoint_height"
+    status: gap
+    spec_ref: "SPEC.md#section-51"
+    tests: []
+    notes: ""
+  - id: HEA-003
+    section: "5.2"
+    summary: "Checkpoint Block Detection"
+    status: gap
+    spec_ref: "SPEC.md#section-52"
+    tests: []
+    notes: ""
+  - id: HEA-004
+    section: "5.4"
+    summary: "L1 Range for Epoch"
+    status: gap
+    spec_ref: "SPEC.md#section-54"
+    tests: []
+    notes: ""
+  - id: HEA-005
+    section: "14.10"
+    summary: "Round-Trip Identity"
+    status: gap
+    spec_ref: "SPEC.md#section-1410"
+    tests: []
+    notes: ""
+  - id: HEA-006
+    section: "5.5"
+    summary: "last_committed_height_in_epoch"
+    status: gap
+    spec_ref: "SPEC.md#section-55"
+    tests: []
+    notes: ""
+  - id: HEA-007
+    section: "5.2"
+    summary: "is_first_block_after_epoch_checkpoint"
+    status: gap
+    spec_ref: "SPEC.md#section-52"
+    tests: []
+    notes: ""

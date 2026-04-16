@@ -1,0 +1,53 @@
+domain_id: reward_economics
+normative: ./NORMATIVE.md
+verification: ./VERIFICATION.md
+items:
+  - id: REW-001
+    section: "8.1"
+    summary: "block_reward_at_height with Halving"
+    status: gap
+    spec_ref: "SPEC.md#section-81"
+    tests: []
+    notes: ""
+  - id: REW-002
+    section: "8.2"
+    summary: "total_block_reward with Bonus"
+    status: gap
+    spec_ref: "SPEC.md#section-82"
+    tests: []
+    notes: ""
+  - id: REW-003
+    section: "8.3"
+    summary: "Fee Distribution"
+    status: gap
+    spec_ref: "SPEC.md#section-83"
+    tests: []
+    notes: ""
+  - id: REW-004
+    section: "8.4"
+    summary: "Epoch Reward Distribution (5-Role Split)"
+    status: gap
+    spec_ref: "SPEC.md#section-84"
+    tests: []
+    notes: ""
+  - id: REW-005
+    section: "8.1"
+    summary: "Tail Emission Floor"
+    status: gap
+    spec_ref: "SPEC.md#section-81"
+    tests: []
+    notes: ""
+  - id: REW-006
+    section: "8.1"
+    summary: "Halving Boundaries"
+    status: gap
+    spec_ref: "SPEC.md#section-81"
+    tests: []
+    notes: ""
+  - id: REW-007
+    section: "3.12"
+    summary: "RewardDistribution Struct"
+    status: gap
+    spec_ref: "SPEC.md#section-312"
+    tests: []
+    notes: ""
