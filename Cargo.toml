@@ -77,22 +77,20 @@ path = "src/lib.rs"
 #
 # Paths are expressed relative to THIS manifest. This crate is developed
 # inside an isolated worktree at
-# `dig-epoch/.claude/worktrees/dig-epoch-impl/`, so reaching the sibling
-# repositories requires four `..` steps:
-#   worktree-impl -> worktrees -> .claude -> dig-epoch -> dig_network
-# from which `dig-block` and `dig-constants` are siblings.
+# `dig-epoch/` itself, so `dig-block` and `dig-constants` sit one level up
+# under `dig_network/` as direct siblings.
 #
 # `dig-block` provides canonical block/checkpoint wire types that dig-epoch
 # **must** re-use rather than redefine (start.md Hard Requirement 1):
 #   * Checkpoint, CheckpointSubmission
 #   * SignerBitmap
 #   * L2BlockHeader
-dig-block = { version = "0.1", path = "../../../../dig-block" }
+dig-block = { version = "0.1", path = "../dig-block" }
 
 # `dig-constants` provides the NetworkConstants / genesis challenge / network
 # ID values dig-epoch needs when constructing EpochManager. Re-use rule:
 # start.md Hard Requirement 2.
-dig-constants = { version = "0.1", path = "../../../../dig-constants" }
+dig-constants = { version = "0.1", path = "../dig-constants" }
 
 # --- Chia ecosystem (low-level, 0.26 cohort) --------------------------------
 # `chia-protocol` — Bytes32 (32-byte hash type) used universally for state
