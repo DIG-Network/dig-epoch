@@ -326,3 +326,27 @@ path = "tests/height_arithmetic/hea_006_test.rs"
 [[test]]
 name = "hea_007_test"
 path = "tests/height_arithmetic/hea_007_test.rs"
+
+# PHS-001: l1_progress_phase_for_network_epoch — pure stateless phase calculation
+# from L1 progress percentage against CON-002 boundaries.
+[[test]]
+name = "phs_001_test"
+path = "tests/phase_machine/phs_001_test.rs"
+
+# PHS-002: EpochManager phase tracking — current_phase(), update_phase() with
+# Option<PhaseTransition> return and RwLock interior mutability.
+[[test]]
+name = "phs_002_test"
+path = "tests/phase_machine/phs_002_test.rs"
+
+# PHS-003: Phase transition events — should_advance() readiness check and
+# PhaseTransition record used to construct EpochEvent::PhaseChanged.
+[[test]]
+name = "phs_003_test"
+path = "tests/phase_machine/phs_003_test.rs"
+
+# PHS-004: Phase boundary enforcement — record_block, submit_checkpoint,
+# finalize_competition reject with EpochError::PhaseMismatch in wrong phase.
+[[test]]
+name = "phs_004_test"
+path = "tests/phase_machine/phs_004_test.rs"

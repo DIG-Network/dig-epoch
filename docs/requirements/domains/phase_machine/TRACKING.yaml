@@ -5,31 +5,39 @@ items:
   - id: PHS-001
     section: "L1 Progress Phase Calculation"
     summary: "l1_progress_phase_for_network_epoch() computes phase from L1 progress percentage: <50% BlockProduction, 50-75% Checkpoint, 75-100% Finalization, >=100% Complete"
-    status: gap
+    status: verified
     spec_ref: "Section 4.2"
-    tests: []
-    notes: ""
+    tests:
+      - tests/phase_machine/phs_001_test.rs
+    completion_date: "2026-04-16"
+    notes: "Pure stateless function in src/phase.rs using CON-002 boundaries. 11 tests."
 
   - id: PHS-002
     section: "EpochManager Phase Tracking"
     summary: "current_phase() returns EpochInfo.phase; update_phase(l1_height) recalculates and returns Option<PhaseTransition>"
-    status: gap
+    status: verified
     spec_ref: "Section 6.3"
-    tests: []
-    notes: ""
+    tests:
+      - tests/phase_machine/phs_002_test.rs
+    completion_date: "2026-04-16"
+    notes: "EpochManager with parking_lot::RwLock, current_phase/update_phase methods. 7 tests."
 
   - id: PHS-003
     section: "Phase Transition Events"
     summary: "should_advance() true when Complete; PhaseTransition records epoch/from/to/l1_height; EpochEvent::PhaseChanged emitted"
-    status: gap
+    status: verified
     spec_ref: "Section 4.3"
-    tests: []
-    notes: ""
+    tests:
+      - tests/phase_machine/phs_003_test.rs
+    completion_date: "2026-04-16"
+    notes: "should_advance() and PhaseTransition→EpochEvent::PhaseChanged construction verified. 7 tests."
 
   - id: PHS-004
     section: "Phase Boundary Enforcement"
     summary: "Phase-gated operations reject with EpochError::PhaseMismatch { expected, got } when called in wrong phase"
-    status: gap
+    status: verified
     spec_ref: "Section 4.1"
-    tests: []
-    notes: ""
+    tests:
+      - tests/phase_machine/phs_004_test.rs
+    completion_date: "2026-04-16"
+    notes: "record_block/submit_checkpoint/finalize_competition phase gates. submit_checkpoint and finalize_competition are stubs; full impl deferred to CKP/MGR phases. 8 tests."

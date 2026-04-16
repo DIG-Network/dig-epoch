@@ -2,49 +2,145 @@
 //!
 //! **Introduced by:** `STR-002` — Module hierarchy (SPEC §13).
 //!
-//! **Future owners:**
+//! **Core struct (MGR-001/STR-004):** Phase tracking (PHS-002/003/004).
 //!
-//! - [`STR-004`](../../docs/requirements/domains/crate_structure/specs/STR-004.md)
-//!   — `EpochManager::new(...)` constructor
-//! - Phase 7 of `IMPLEMENTATION_ORDER.md` — the `epoch_manager` domain:
-//!   - [`MGR-001`](../../docs/requirements/domains/epoch_manager/specs/MGR-001.md)
-//!     — struct definition with interior mutability (`parking_lot::RwLock`)
-//!   - [`MGR-002`](../../docs/requirements/domains/epoch_manager/specs/MGR-002.md)
-//!     — `record_block(fees, tx_count)`
-//!   - [`MGR-003`](../../docs/requirements/domains/epoch_manager/specs/MGR-003.md)
-//!     — `set_current_epoch_chain_totals()`
-//!   - [`MGR-004`](../../docs/requirements/domains/epoch_manager/specs/MGR-004.md)
-//!     — `advance_epoch(l1_height, state_root)`
-//!   - [`MGR-005`](../../docs/requirements/domains/epoch_manager/specs/MGR-005.md)
-//!     — query methods (`get_epoch_info`, `get_epoch_summary`, …)
-//!   - [`MGR-006`](../../docs/requirements/domains/epoch_manager/specs/MGR-006.md)
-//!     — `set_current_epoch_dfsp_close_snapshot()`
-//!   - [`MGR-007`](../../docs/requirements/domains/epoch_manager/specs/MGR-007.md)
-//!     — epoch history / summaries storage
-//!
-//! **Spec reference:**
-//! [`SPEC.md` §13](../../docs/resources/SPEC.md) — canonical module list;
-//! [`SPEC.md` §6](../../docs/resources/SPEC.md) — EpochManager surface.
-//!
-//! ## Content rule
-//!
-//! Per start.md Hard Requirement 12, `EpochManager` MUST use interior
-//! mutability via `parking_lot::RwLock` (not `std::sync::RwLock`). The
-//! struct itself will be added by MGR-001; STR-002 only guarantees the
-//! module is present so that STR-004 (constructor) has a home.
-//!
-//! All method implementations live here, but the *data types* they
-//! operate on (`EpochInfo`, `EpochSummary`, `CheckpointCompetition`, …)
-//! live under [`crate::types`] per STR-002's types-vs-functions split.
-//!
-//! ## Status at STR-002
-//!
-//! Empty aside from the [`STR_002_MODULE_PRESENT`] sentinel.
+//! **Spec reference:** [`SPEC.md` §6](../../docs/resources/SPEC.md)
 
 /// Sentinel marker proving the module exists and is reachable at
 /// `dig_epoch::manager::STR_002_MODULE_PRESENT`.
-///
-/// Exercised by the STR-002 integration test — see
-/// [`tests/crate_structure/str_002_test.rs`](../../tests/crate_structure/str_002_test.rs).
 #[doc(hidden)]
 pub const STR_002_MODULE_PRESENT: () = ();
+
+use chia_protocol::Bytes32;
+use parking_lot::RwLock;
+
+use crate::error::EpochError;
+use crate::phase::l1_progress_phase_for_network_epoch;
+use crate::types::epoch_info::EpochInfo;
+use crate::types::epoch_phase::EpochPhase;
+use crate::types::epoch_phase::PhaseTransition;
+
+// -----------------------------------------------------------------------------
+// MGR-001 / STR-004 — EpochManager struct
+// -----------------------------------------------------------------------------
+
+struct EpochManagerInner {
+    current_epoch: EpochInfo,
+    genesis_l1_height: u32,
+}
+
+/// Primary state machine for managing an epoch's lifecycle.
+///
+/// Uses `parking_lot::RwLock` for interior mutability (Hard Requirement 12).
+pub struct EpochManager {
+    inner: RwLock<EpochManagerInner>,
+}
+
+impl EpochManager {
+    /// Creates a new `EpochManager` starting at the given epoch.
+    pub fn new(
+        genesis_l1_height: u32,
+        epoch: u64,
+        start_l2_height: u64,
+        start_state_root: Bytes32,
+    ) -> Self {
+        let start_l1_height =
+            genesis_l1_height + (epoch as u32 * crate::constants::EPOCH_L1_BLOCKS);
+        let current_epoch =
+            EpochInfo::new(epoch, start_l1_height, start_l2_height, start_state_root);
+        Self {
+            inner: RwLock::new(EpochManagerInner {
+                current_epoch,
+                genesis_l1_height,
+            }),
+        }
+    }
+
+    // -------------------------------------------------------------------------
+    // PHS-002 — phase tracking
+    // -------------------------------------------------------------------------
+
+    /// Returns the current epoch phase.
+    pub fn current_phase(&self) -> EpochPhase {
+        self.inner.read().current_epoch.phase
+    }
+
+    /// Recalculates the phase from `l1_height`. Returns `Some(PhaseTransition)`
+    /// if the phase changed, `None` if unchanged.
+    pub fn update_phase(&self, l1_height: u32) -> Option<PhaseTransition> {
+        let mut inner = self.inner.write();
+        let old_phase = inner.current_epoch.phase;
+        let new_phase = l1_progress_phase_for_network_epoch(
+            inner.genesis_l1_height,
+            inner.current_epoch.epoch,
+            l1_height,
+        );
+        if new_phase != old_phase {
+            inner.current_epoch.phase = new_phase;
+            Some(PhaseTransition {
+                epoch: inner.current_epoch.epoch,
+                from: old_phase,
+                to: new_phase,
+                l1_height,
+            })
+        } else {
+            None
+        }
+    }
+
+    // -------------------------------------------------------------------------
+    // PHS-003 — should_advance
+    // -------------------------------------------------------------------------
+
+    /// Returns `true` when the current phase is `Complete`.
+    pub fn should_advance(&self, _l1_height: u32) -> bool {
+        self.current_phase() == EpochPhase::Complete
+    }
+
+    // -------------------------------------------------------------------------
+    // PHS-004 — phase-gated operations
+    // -------------------------------------------------------------------------
+
+    /// Records a block in the current epoch.
+    ///
+    /// Returns `Err(PhaseMismatch)` if not in `BlockProduction`.
+    pub fn record_block(&self, fees: u64, tx_count: u64) -> Result<(), EpochError> {
+        let mut inner = self.inner.write();
+        if inner.current_epoch.phase != EpochPhase::BlockProduction {
+            return Err(EpochError::PhaseMismatch {
+                expected: EpochPhase::BlockProduction,
+                got: inner.current_epoch.phase,
+            });
+        }
+        inner.current_epoch.record_block(fees, tx_count);
+        Ok(())
+    }
+
+    /// Stub: submit a checkpoint. Phase-gated to `Checkpoint`.
+    ///
+    /// Returns `Err(PhaseMismatch)` if not in `Checkpoint`.
+    pub fn submit_checkpoint(&self) -> Result<(), EpochError> {
+        let inner = self.inner.read();
+        if inner.current_epoch.phase != EpochPhase::Checkpoint {
+            return Err(EpochError::PhaseMismatch {
+                expected: EpochPhase::Checkpoint,
+                got: inner.current_epoch.phase,
+            });
+        }
+        Ok(())
+    }
+
+    /// Stub: finalize the checkpoint competition. Phase-gated to `Finalization`.
+    ///
+    /// Returns `Err(PhaseMismatch)` if not in `Finalization`.
+    pub fn finalize_competition(&self) -> Result<(), EpochError> {
+        let inner = self.inner.read();
+        if inner.current_epoch.phase != EpochPhase::Finalization {
+            return Err(EpochError::PhaseMismatch {
+                expected: EpochPhase::Finalization,
+                got: inner.current_epoch.phase,
+            });
+        }
+        Ok(())
+    }
+}

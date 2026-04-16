@@ -2,43 +2,49 @@
 //!
 //! **Introduced by:** `STR-002` — Module hierarchy (SPEC §13).
 //!
-//! **Future owners:** Phase 5 of `IMPLEMENTATION_ORDER.md`:
+//! **Owner:** PHS-001 (Phase 5). EpochManager phase methods live in `manager`.
 //!
-//! - [`PHS-001`](../../docs/requirements/domains/phase_state_machine/specs/PHS-001.md)
-//!   — `l1_progress_phase_for_network_epoch()` free function
-//! - [`PHS-002`](../../docs/requirements/domains/phase_state_machine/specs/PHS-002.md)
-//!   — [`crate::manager::EpochManager`] phase tracking
-//! - [`PHS-003`](../../docs/requirements/domains/phase_state_machine/specs/PHS-003.md)
-//!   — transition events and `should_advance()`
-//! - [`PHS-004`](../../docs/requirements/domains/phase_state_machine/specs/PHS-004.md)
-//!   — phase-boundary enforcement (`PhaseMismatch` errors)
-//!
-//! **Spec reference:**
-//! [`SPEC.md` §13](../../docs/resources/SPEC.md) — canonical module list;
-//! [`SPEC.md` §4](../../docs/resources/SPEC.md) — phase state machine.
-//!
-//! ## Content rule
-//!
-//! This module owns the *free-function* surface of the phase state
-//! machine — stateless calculation driven by the L1 height relative to
-//! the network-epoch window. The `EpochPhase` enum and
-//! `PhaseTransition` struct live in [`crate::types::epoch_phase`] because
-//! STR-002 splits **types** (in `types/`) from **functions** (at the crate
-//! root).
-//!
-//! Per start.md Hard Requirement 9, phase calculation is driven by L1
-//! height alone — never by wall-clock time. This invariant is structural
-//! (there is no clock dependency to import) and must be preserved by
-//! every PHS-* requirement.
-//!
-//! ## Status at STR-002
-//!
-//! Empty aside from the [`STR_002_MODULE_PRESENT`] sentinel.
+//! **Spec reference:** [`SPEC.md` §4`](../../docs/resources/SPEC.md)
 
 /// Sentinel marker proving the module exists and is reachable at
 /// `dig_epoch::phase::STR_002_MODULE_PRESENT`.
-///
-/// Exercised by the STR-002 integration test — see
-/// [`tests/crate_structure/str_002_test.rs`](../../tests/crate_structure/str_002_test.rs).
 #[doc(hidden)]
 pub const STR_002_MODULE_PRESENT: () = ();
+
+use crate::constants::{
+    EPOCH_L1_BLOCKS, PHASE_BLOCK_PRODUCTION_END_PCT, PHASE_CHECKPOINT_END_PCT,
+    PHASE_FINALIZATION_END_PCT,
+};
+use crate::types::epoch_phase::EpochPhase;
+
+// -----------------------------------------------------------------------------
+// PHS-001 — l1_progress_phase_for_network_epoch
+// -----------------------------------------------------------------------------
+
+/// Maps L1 block height progress to an `EpochPhase`.
+///
+/// Progress percentage = `(current - epoch_l1_start) * 100 / EPOCH_L1_BLOCKS`.
+/// Phase boundaries are driven by the CON-002 constants (50/75/100%).
+/// Pure and deterministic — no side effects, no wall-clock time.
+pub fn l1_progress_phase_for_network_epoch(
+    genesis_l1_height: u32,
+    epoch: u64,
+    current_l1_height: u32,
+) -> EpochPhase {
+    let epoch_l1_start = genesis_l1_height + (epoch as u32 * EPOCH_L1_BLOCKS);
+    let pct = if current_l1_height <= epoch_l1_start {
+        0u64
+    } else {
+        let elapsed = (current_l1_height - epoch_l1_start) as u64;
+        (elapsed * 100 / EPOCH_L1_BLOCKS as u64).min(100)
+    };
+    if pct < PHASE_BLOCK_PRODUCTION_END_PCT as u64 {
+        EpochPhase::BlockProduction
+    } else if pct < PHASE_CHECKPOINT_END_PCT as u64 {
+        EpochPhase::Checkpoint
+    } else if pct < PHASE_FINALIZATION_END_PCT as u64 {
+        EpochPhase::Finalization
+    } else {
+        EpochPhase::Complete
+    }
+}

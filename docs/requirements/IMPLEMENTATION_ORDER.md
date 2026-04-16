@@ -52,10 +52,10 @@ After completing a requirement: write tests, verify they pass, update TRACKING.y
 
 ## Phase 5: Phase State Machine
 
-- [ ] PHS-001 — l1_progress_phase_for_network_epoch() free function
-- [ ] PHS-002 — EpochManager phase tracking (current_phase, update_phase)
-- [ ] PHS-003 — Phase transition events and should_advance()
-- [ ] PHS-004 — Phase boundary enforcement (PhaseMismatch errors)
+- [x] PHS-001 — l1_progress_phase_for_network_epoch() free function
+- [x] PHS-002 — EpochManager phase tracking (current_phase, update_phase)
+- [x] PHS-003 — Phase transition events and should_advance()
+- [x] PHS-004 — Phase boundary enforcement (PhaseMismatch errors)
 
 ## Phase 6: Reward Economics
 
