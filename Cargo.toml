@@ -167,3 +167,11 @@ parking_lot = "0.12"
 [[test]]
 name = "test_dependency_imports"
 path = "tests/crate_structure/test_dependency_imports.rs"
+
+# STR-002: Module hierarchy — proves every module listed in SPEC §13 exists
+# on disk, is wired into `lib.rs` (or `types/mod.rs`), and is reachable from
+# an external crate under its canonical path. Each of the 10 tests mirrors
+# one row of the STR-002 Test Plan table.
+[[test]]
+name = "test_module_hierarchy"
+path = "tests/crate_structure/test_module_hierarchy.rs"

@@ -10,7 +10,7 @@ After completing a requirement: write tests, verify they pass, update TRACKING.y
 ## Phase 0: Crate Structure & Foundation
 
 - [x] STR-001 — Cargo.toml with DIG/Chia crate dependencies and metadata
-- [ ] STR-002 — Module hierarchy matching SPEC Section 13
+- [x] STR-002 — Module hierarchy matching SPEC Section 13
 - [ ] STR-003 — Public re-exports (EpochManager, all types, constants, functions)
 - [ ] STR-004 — EpochManager constructor (new with network_id, genesis_l1_height, initial_state_root)
 - [ ] STR-005 — Test infrastructure (test EpochManager, test blocks, helpers)
