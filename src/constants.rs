@@ -41,7 +41,7 @@
 /// is reachable from an external crate at its canonical path.
 ///
 /// See the STR-002 integration test at
-/// [`tests/crate_structure/test_module_hierarchy.rs`](../../tests/crate_structure/test_module_hierarchy.rs).
+/// [`tests/crate_structure/str_002_test.rs`](../../tests/crate_structure/str_002_test.rs).
 ///
 /// The value is a zero-sized `()` constant; its only purpose is to let
 /// `use dig_epoch::constants::STR_002_MODULE_PRESENT` succeed. No production

@@ -8,26 +8,26 @@ items:
     status: verified
     spec_ref: "SPEC.md#section-12"
     tests:
-      - tests/crate_structure/test_dependency_imports.rs
+      - tests/crate_structure/str_001_test.rs
     completion_date: "2026-04-16"
     # `commit` intentionally omitted: backfilling a self-referential SHA into a
     # tracked file forces a git amend, which mutates the SHA, which invalidates
     # the backfill. Use `git log --grep 'STR-001'` on `feature/dig-epoch-implementation`
     # to find the authoritative commit.
-    notes: "All 13 spec'd dependencies declared with exact version pins (DIG 0.1, Chia low-level 0.26, Chia SDK 0.30). `cargo check`, `cargo test --test test_dependency_imports` (10/10 pass), `cargo clippy --all-targets -- -D warnings`, and `cargo fmt --check` all clean. DIG crates use `{ version = \"0.1\", path = \"../../../../<crate>\" }` while unpublished; mirrors `dig-blockstore` bootstrap convention."
+    notes: "All 13 spec'd dependencies declared with exact version pins (DIG 0.1, Chia low-level 0.26, Chia SDK 0.30). `cargo check`, `cargo test --test str_001_test` (10/10 pass), `cargo clippy --all-targets -- -D warnings`, and `cargo fmt --check` all clean. DIG crates use `{ version = \"0.1\", path = \"../../../../<crate>\" }` while unpublished; mirrors `dig-blockstore` bootstrap convention."
   - id: STR-002
     section: "13"
     summary: "Module Hierarchy"
     status: verified
     spec_ref: "SPEC.md#section-13"
     tests:
-      - tests/crate_structure/test_module_hierarchy.rs
+      - tests/crate_structure/str_002_test.rs
     completion_date: "2026-04-16"
     # `commit` intentionally omitted for the same reason as STR-001:
     # backfilling a self-referential SHA into a tracked file forces a git
     # amend, which mutates the SHA and invalidates the backfill. Use
     # `git log --grep 'STR-002'` on `main` to find the authoritative commit.
-    notes: "All 16 STR-002 modules (8 root: constants, arithmetic, phase, rewards, manager, verification, dfsp, error + 8 `types/`: epoch_phase, epoch_info, epoch_summary, dfsp, events, checkpoint_competition, reward, verification) created as empty stubs with `STR_002_MODULE_PRESENT` sentinel markers and requirement-tracing doc comments. `src/lib.rs` adds `pub mod` declarations in responsibility order (no `pub use` re-exports — those are STR-003's scope). `cargo test --test test_module_hierarchy` reports 10/10 passing (one test per Test Plan row). `cargo test`, `cargo check`, `cargo clippy --all-targets -- -D warnings`, and `cargo fmt --check` all clean. Root-level `verification.rs`/`dfsp.rs` are distinct from `types/verification.rs`/`types/dfsp.rs` per STR-002 Implementation Notes (functions vs data types)."
+    notes: "All 16 STR-002 modules (8 root: constants, arithmetic, phase, rewards, manager, verification, dfsp, error + 8 `types/`: epoch_phase, epoch_info, epoch_summary, dfsp, events, checkpoint_competition, reward, verification) created as empty stubs with `STR_002_MODULE_PRESENT` sentinel markers and requirement-tracing doc comments. `src/lib.rs` adds `pub mod` declarations in responsibility order (no `pub use` re-exports — those are STR-003's scope). `cargo test --test str_002_test` reports 10/10 passing (one test per Test Plan row). `cargo test`, `cargo check`, `cargo clippy --all-targets -- -D warnings`, and `cargo fmt --check` all clean. Root-level `verification.rs`/`dfsp.rs` are distinct from `types/verification.rs`/`types/dfsp.rs` per STR-002 Implementation Notes (functions vs data types)."
   - id: STR-003
     section: "12"
     summary: "Public Re-exports"

@@ -38,7 +38,7 @@
 /// `dig_epoch::verification::STR_002_MODULE_PRESENT`.
 ///
 /// Exercised by the STR-002 integration test — see
-/// [`tests/crate_structure/test_module_hierarchy.rs`](../../tests/crate_structure/test_module_hierarchy.rs)
+/// [`tests/crate_structure/str_002_test.rs`](../../tests/crate_structure/str_002_test.rs)
 /// (row 8, `test_verification_module`).
 #[doc(hidden)]
 pub const STR_002_MODULE_PRESENT: () = ();

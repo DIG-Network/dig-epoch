@@ -203,12 +203,12 @@ For each entry: apply Template T1–T17 using the listed target files, spec poin
 - [ ] **STR-001** — Cargo.toml dependencies
   - Domain: `crate_structure`
   - Spec: `docs/requirements/domains/crate_structure/specs/STR-001.md`
-  - Create: `Cargo.toml`, `src/lib.rs` (empty stub), `tests/crate_structure/test_dependency_imports.rs`
+  - Create: `Cargo.toml`, `src/lib.rs` (empty stub), `tests/crate_structure/str_001_test.rs`
   - Commit: `feat(crate_structure): STR-001 declare Cargo.toml dependencies`
 
 - [ ] **STR-002** — Module hierarchy matching SPEC §13
   - Spec: `docs/requirements/domains/crate_structure/specs/STR-002.md`
-  - Create: `src/constants.rs`, `src/errors.rs`, `src/types.rs`, `src/height.rs`, `src/phase.rs`, `src/rewards.rs`, `src/manager.rs`, `src/checkpoint_competition.rs`, `src/verification.rs`, `src/dfsp.rs`, `src/serialization.rs` (empty stubs with module doc comments); wire them into `src/lib.rs`; `tests/crate_structure/test_module_hierarchy.rs`
+  - Create: `src/constants.rs`, `src/errors.rs`, `src/types.rs`, `src/height.rs`, `src/phase.rs`, `src/rewards.rs`, `src/manager.rs`, `src/checkpoint_competition.rs`, `src/verification.rs`, `src/dfsp.rs`, `src/serialization.rs` (empty stubs with module doc comments); wire them into `src/lib.rs`; `tests/crate_structure/str_002_test.rs`
   - Commit: `feat(crate_structure): STR-002 scaffold module hierarchy`
 
 - [ ] **STR-003** — Public re-exports

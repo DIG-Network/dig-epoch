@@ -80,10 +80,10 @@
 //!
 //! ## Relationship to STR-001
 //!
-//! STR-001's integration test (`test_dependency_imports.rs`) lives in a
+//! STR-001's integration test (`str_001_test.rs`) lives in a
 //! sibling file and is left strictly untouched. Every requirement owns
 //! exactly one integration test file; adding STR-002 assertions to
-//! `test_dependency_imports.rs` would break the traceability between
+//! `str_001_test.rs` would break the traceability between
 //! requirement ID and test file name enforced by TRACKING.yaml.
 
 // The crate under test. We always import via the external crate name

@@ -59,7 +59,7 @@ path = "src/lib.rs"
 # [dependencies] — STR-001
 # -----------------------------------------------------------------------------
 #
-# Every crate below is exercised by `tests/crate_structure/test_dependency_imports.rs`
+# Every crate below is exercised by `tests/crate_structure/str_001_test.rs`
 # so an accidental removal immediately breaks the STR-001 integration test
 # (either via `cargo check` failure or via a missing symbol).
 # -----------------------------------------------------------------------------
@@ -162,16 +162,22 @@ parking_lot = "0.12"
 # `tests/crate_structure/` subdirectory layout would not be discovered even
 # with autotests enabled (Cargo only scans the top level of `tests/`).
 
+# Integration test filename convention: `<prefix>_<NNN>_test.rs` (lowercase,
+# 3-digit padded). Examples: `str_001_test.rs`, `con_001_test.rs`. This gives
+# a deterministic 1:1 mapping from requirement ID to test target name, so
+# `cargo test --test str_001_test` always hits the expected file without
+# guessing a feature nickname.
+
 # STR-001: Cargo.toml dependencies — proves the dep graph resolves and every
 # spec'd crate is both declared and usable.
 [[test]]
-name = "test_dependency_imports"
-path = "tests/crate_structure/test_dependency_imports.rs"
+name = "str_001_test"
+path = "tests/crate_structure/str_001_test.rs"
 
 # STR-002: Module hierarchy — proves every module listed in SPEC §13 exists
 # on disk, is wired into `lib.rs` (or `types/mod.rs`), and is reachable from
 # an external crate under its canonical path. Each of the 10 tests mirrors
 # one row of the STR-002 Test Plan table.
 [[test]]
-name = "test_module_hierarchy"
-path = "tests/crate_structure/test_module_hierarchy.rs"
+name = "str_002_test"
+path = "tests/crate_structure/str_002_test.rs"
