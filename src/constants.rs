@@ -260,3 +260,57 @@ pub const PHASE_CHECKPOINT_END_PCT: u32 = 75;
 ///
 /// When progress reaches 100% the phase transitions to `Complete`.
 pub const PHASE_FINALIZATION_END_PCT: u32 = 100;
+
+// -----------------------------------------------------------------------------
+// CON-003 — Reward economics constants
+// -----------------------------------------------------------------------------
+//
+// Spec refs:
+//   * Normative    : docs/requirements/domains/constants/NORMATIVE.md#con-003
+//   * Detailed spec: docs/requirements/domains/constants/specs/CON-003.md
+//   * SPEC source  : docs/resources/SPEC.md §2.3
+//
+// These are **economic commitments** identical across all validators. They
+// MUST NOT be runtime-configurable (SPEC §2.3).
+// -----------------------------------------------------------------------------
+
+/// 1 L2 token = 10^12 mojos.
+pub const MOJOS_PER_L2: u64 = 1_000_000_000_000;
+
+/// L2 block time in milliseconds.
+pub const L2_BLOCK_TIME_MS: u64 = 3_000;
+
+/// L2 blocks per 10-minute window (600_000 ms / 3_000 ms).
+pub const L2_BLOCKS_PER_10_MIN: u64 = 200;
+
+/// Initial emission rate: 64 L2 per 10 minutes.
+pub const INITIAL_EMISSION_PER_10_MIN: u64 = 64 * MOJOS_PER_L2;
+
+/// Tail emission rate: 4 L2 per 10 minutes.
+pub const TAIL_EMISSION_PER_10_MIN: u64 = 4 * MOJOS_PER_L2;
+
+/// Per-block reward before any halving (0.32 L2).
+/// Derived: `INITIAL_EMISSION_PER_10_MIN / L2_BLOCKS_PER_10_MIN`.
+pub const INITIAL_BLOCK_REWARD: u64 = 320_000_000_000;
+
+/// Per-block reward at tail emission (0.02 L2).
+/// Derived: `TAIL_EMISSION_PER_10_MIN / L2_BLOCKS_PER_10_MIN`.
+pub const TAIL_BLOCK_REWARD: u64 = 20_000_000_000;
+
+/// Halving interval: ~3 years of blocks at 3-second block time.
+pub const HALVING_INTERVAL_BLOCKS: u64 = 94_608_000;
+
+/// Number of halvings before switching to tail emission.
+pub const HALVINGS_BEFORE_TAIL: u64 = 4;
+
+/// Initial epoch reward (spec-declared; see CON-003.md).
+pub const INITIAL_EPOCH_REWARD: u64 = 32_000_000_000_000;
+
+/// Halving interval in epochs (spec-declared; see CON-003.md).
+pub const HALVING_INTERVAL_EPOCHS: u64 = 315_576;
+
+/// Minimum epoch reward (tail emission floor).
+pub const MINIMUM_EPOCH_REWARD: u64 = 2_000_000_000_000;
+
+/// Bonus reward for the first block after an epoch checkpoint.
+pub const EPOCH_FIRST_BLOCK_BONUS: u64 = 100_000_000_000;

@@ -197,3 +197,10 @@ path = "tests/constants/con_001_test.rs"
 [[test]]
 name = "con_002_test"
 path = "tests/constants/con_002_test.rs"
+
+# CON-003: Reward economics constants — proves MOJOS_PER_L2, L2_BLOCK_TIME_MS,
+# L2_BLOCKS_PER_10_MIN, INITIAL/TAIL emission rates, block rewards, halving
+# interval, INITIAL_EPOCH_REWARD, MINIMUM_EPOCH_REWARD, EPOCH_FIRST_BLOCK_BONUS.
+[[test]]
+name = "con_003_test"
+path = "tests/constants/con_003_test.rs"

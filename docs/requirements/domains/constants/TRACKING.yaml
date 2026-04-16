@@ -23,10 +23,12 @@ items:
   - id: CON-003
     section: "2.3"
     summary: "Reward Economics Constants"
-    status: gap
+    status: verified
     spec_ref: "SPEC.md#section-23"
-    tests: []
-    notes: ""
+    tests:
+      - tests/constants/con_003_test.rs
+    completion_date: "2026-04-16"
+    notes: "13 constants declared in src/constants.rs: MOJOS_PER_L2, L2_BLOCK_TIME_MS, L2_BLOCKS_PER_10_MIN, INITIAL/TAIL emission rates and block rewards, HALVING_INTERVAL_BLOCKS, HALVINGS_BEFORE_TAIL, INITIAL_EPOCH_REWARD, HALVING_INTERVAL_EPOCHS, MINIMUM_EPOCH_REWARD, EPOCH_FIRST_BLOCK_BONUS. 14 integration tests cover all values and emission derivation chains."
   - id: CON-004
     section: "2.3"
     summary: "Fee and Reward Distribution"
