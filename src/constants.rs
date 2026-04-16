@@ -349,3 +349,51 @@ pub const SCORE_SUBMITTER_REWARD_SHARE: u64 = 4;
 
 /// Finalizer share of the epoch block reward.
 pub const FINALIZER_REWARD_SHARE: u64 = 3;
+
+// -----------------------------------------------------------------------------
+// CON-005 — DFSP, consensus, slashing, and withdrawal constants
+// -----------------------------------------------------------------------------
+//
+// Spec refs:
+//   * Normative    : docs/requirements/domains/constants/NORMATIVE.md#con-005
+//   * Detailed spec: docs/requirements/domains/constants/specs/CON-005.md
+//   * SPEC source  : docs/resources/SPEC.md §2.4-2.6
+// -----------------------------------------------------------------------------
+
+/// Wall-clock seconds per DFSP accounting epoch.
+/// Derived: `(BLOCKS_PER_EPOCH * L2_BLOCK_TIME_MS) / 1_000`.
+pub const DFSP_WALL_CLOCK_EPOCH_SECONDS: u64 = 96;
+
+/// Network epochs a CID may remain in Grace state before expiring (30-day window).
+pub const DFSP_GRACE_PERIOD_NETWORK_EPOCHS: u64 = 27_000;
+
+/// Bootstrap genesis issuance subsidy per evaluated epoch (mojos). `u128` for
+/// mojo-precision DFSP calculations.
+pub const DFSP_GENESIS_ISSUANCE_SUBSIDY_MOJOS_V1: u128 = 0;
+
+/// DFSP activation height — `u64::MAX` means disabled by default.
+pub const DFSP_ACTIVATION_HEIGHT: u64 = u64::MAX;
+
+/// Environment variable name used to override DFSP activation height.
+pub const DIG_DFSP_ACTIVATION_HEIGHT_ENV: &str = "DIG_DFSP_ACTIVATION_HEIGHT";
+
+/// Stake percentage required for soft finality.
+pub const SOFT_FINALITY_THRESHOLD_PCT: u64 = 67;
+
+/// Stake percentage required for a checkpoint to win the competition.
+pub const HARD_FINALITY_THRESHOLD_PCT: u64 = 67;
+
+/// Stake percentage required for a valid checkpoint submission.
+pub const CHECKPOINT_THRESHOLD_PCT: u64 = 67;
+
+/// Epochs to track for correlation penalty calculation. `u32` per SPEC §2.6.
+pub const CORRELATION_WINDOW_EPOCHS: u32 = 36;
+
+/// Maximum lookback for slashable offenses (in epochs).
+pub const SLASH_LOOKBACK_EPOCHS: u64 = 1_000;
+
+/// DFSP slashing evidence lookback — alias for [`SLASH_LOOKBACK_EPOCHS`].
+pub const DFSP_SLASH_LOOKBACK_EPOCHS: u64 = SLASH_LOOKBACK_EPOCHS;
+
+/// Epochs before a withdrawal completes.
+pub const WITHDRAWAL_DELAY_EPOCHS: u64 = 50;

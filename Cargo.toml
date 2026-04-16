@@ -210,3 +210,11 @@ path = "tests/constants/con_003_test.rs"
 [[test]]
 name = "con_004_test"
 path = "tests/constants/con_004_test.rs"
+
+# CON-005: DFSP, consensus, slashing constants — proves all 12 constants with
+# correct types (u128 for GENESIS_ISSUANCE, u32 for CORRELATION_WINDOW, &str for
+# ENV name), default-disabled DFSP, 67% consensus thresholds, and DFSP wall-clock
+# derivation.
+[[test]]
+name = "con_005_test"
+path = "tests/constants/con_005_test.rs"

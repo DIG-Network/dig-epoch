@@ -41,10 +41,12 @@ items:
   - id: CON-005
     section: "2.4-2.6"
     summary: "DFSP, Consensus, Slashing Constants"
-    status: gap
+    status: verified
     spec_ref: "SPEC.md#section-24"
-    tests: []
-    notes: ""
+    tests:
+      - tests/constants/con_005_test.rs
+    completion_date: "2026-04-16"
+    notes: "12 constants declared in src/constants.rs covering DFSP epoch parameters (u128 GENESIS_ISSUANCE, u64::MAX ACTIVATION_HEIGHT, &str ENV name), consensus thresholds (all 67%), and slashing/withdrawal constants (u32 CORRELATION_WINDOW). 11 tests cover all values, types, and DFSP wall-clock derivation."
   - id: CON-006
     section: "7.1"
     summary: "Sentinel Constants"

@@ -21,7 +21,7 @@ After completing a requirement: write tests, verify they pass, update TRACKING.y
 - [x] CON-002 — Phase boundary constants (50%, 75%, 100% thresholds)
 - [x] CON-003 — Reward economics constants (MOJOS_PER_L2, INITIAL_BLOCK_REWARD, halvings, tail, bonus)
 - [x] CON-004 — Fee and reward distribution percentages (5-role split)
-- [ ] CON-005 — DFSP, consensus, slashing, and withdrawal constants
+- [x] CON-005 — DFSP, consensus, slashing, and withdrawal constants
 - [ ] CON-006 — Sentinel constants (EMPTY_ROOT)
 
 ## Phase 2: Error Types
