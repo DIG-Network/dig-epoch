@@ -35,3 +35,105 @@
 /// (row 10, `test_error_module`).
 #[doc(hidden)]
 pub const STR_002_MODULE_PRESENT: () = ();
+
+use crate::types::epoch_phase::EpochPhase;
+
+// -----------------------------------------------------------------------------
+// ERR-002 — CheckpointCompetitionError
+// -----------------------------------------------------------------------------
+
+/// Errors within the checkpoint competition lifecycle.
+///
+/// Spec ref: SPEC §10.2 / ERR-002.
+#[derive(Debug, Clone, thiserror::Error)]
+pub enum CheckpointCompetitionError {
+    /// Checkpoint data failed validation.
+    #[error("Invalid checkpoint data: {0}")]
+    InvalidData(String),
+
+    /// No competition exists for the requested epoch.
+    #[error("Checkpoint competition not found for epoch {0}")]
+    NotFound(u64),
+
+    /// Submitted checkpoint's score does not exceed the current leader.
+    #[error("Score not higher: current {current}, submitted {submitted}")]
+    ScoreNotHigher {
+        /// Current leading score.
+        current: u64,
+        /// Score of the new submission.
+        submitted: u64,
+    },
+
+    /// Submission's epoch field doesn't match the competition's epoch.
+    #[error("Epoch mismatch: expected {expected}, got {got}")]
+    EpochMismatch {
+        /// Epoch the competition is running for.
+        expected: u64,
+        /// Epoch field in the submission.
+        got: u64,
+    },
+
+    /// Competition has already been finalized.
+    #[error("Competition already finalized")]
+    AlreadyFinalized,
+
+    /// Competition hasn't been started yet.
+    #[error("Competition not started")]
+    NotStarted,
+}
+
+// -----------------------------------------------------------------------------
+// ERR-001 — EpochError
+// -----------------------------------------------------------------------------
+
+/// Primary error type for the dig-epoch crate.
+///
+/// Spec ref: SPEC §10.1 / ERR-001.
+#[derive(Debug, Clone, thiserror::Error)]
+pub enum EpochError {
+    /// Attempted to advance an epoch that hasn't reached Complete phase.
+    #[error("Cannot advance: epoch {0} is not complete")]
+    EpochNotComplete(u64),
+
+    /// Attempted to advance an epoch with no finalized checkpoint.
+    #[error("Cannot advance: epoch {0} has no finalized checkpoint")]
+    NoFinalizedCheckpoint(u64),
+
+    /// Checkpoint-class block contains non-zero SpendBundles, cost, or fees.
+    #[error("Checkpoint block at height {0} is not empty: {1} bundles, {2} cost, {3} fees")]
+    CheckpointBlockNotEmpty(u64, u32, u64, u64),
+
+    /// Operation requires a specific phase but the epoch is in a different one.
+    #[error("Phase mismatch: expected {expected}, got {got}")]
+    PhaseMismatch {
+        /// Required phase.
+        expected: EpochPhase,
+        /// Actual current phase.
+        got: EpochPhase,
+    },
+
+    /// Submission or query references the wrong epoch.
+    #[error("Epoch mismatch: expected {expected}, got {got}")]
+    EpochMismatch {
+        /// Expected epoch number.
+        expected: u64,
+        /// Actual epoch number received.
+        got: u64,
+    },
+
+    /// L2 height is below genesis (height 0 or underflow).
+    #[error("Invalid height {0}: below genesis")]
+    InvalidHeight(u64),
+
+    /// DFSP operation attempted at a height before activation.
+    #[error("DFSP not active at height {0}")]
+    DfspNotActive(u64),
+
+    /// DFSP epoch-boundary processing error.
+    #[error("DFSP epoch-boundary error: {0}")]
+    DfspBoundary(String),
+
+    /// Checkpoint competition error (delegated via `#[from]`).
+    #[error("Competition error: {0}")]
+    Competition(#[from] CheckpointCompetitionError),
+}

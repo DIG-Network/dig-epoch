@@ -7,7 +7,7 @@
 
 | ID | Status | Summary | Verification Approach |
 |----|--------|---------|----------------------|
-| TYP-001 | gap | EpochPhase and PhaseTransition | Unit test: construct each EpochPhase variant (BlockProduction, Checkpoint, Finalization, Complete). Verify Clone, Copy, Debug, PartialEq, Eq, Hash, Serialize, Deserialize derives. Construct PhaseTransition with all fields, verify correct storage and Debug output. |
+| TYP-001 | verified | EpochPhase and PhaseTransition | Unit test: construct each EpochPhase variant (BlockProduction, Checkpoint, Finalization, Complete). Verify Clone, Copy, Debug, PartialEq, Eq, Hash, Serialize, Deserialize derives. Construct PhaseTransition with all fields, verify correct storage and Debug output. **Evidence:** `tests/epoch_types/typ_001_test.rs` (15/15 passing, 2026-04-16). |
 | TYP-002 | gap | EpochInfo Struct | Unit test: construct EpochInfo via new() with epoch, start_l1_height, start_l2_height, start_state_root. Verify BlockProduction phase, zeroed counters, EMPTY_ROOT for all DFSP roots, None checkpoint, end_l1_height = start_l1_height + EPOCH_L1_BLOCKS. Verify all 17 fields accessible and correctly typed. |
 | TYP-003 | gap | EpochSummary Struct | Unit test: create EpochSummary from EpochInfo. Verify finalized = checkpoint.is_some(). Verify checkpoint_hash = checkpoint.map(c.hash()). Verify all 13 fields including 7 DFSP fields are correctly mapped from EpochInfo. |
 | TYP-004 | gap | DfspCloseSnapshot Struct | Unit test: construct DfspCloseSnapshot with all 7 fields. Verify Clone and Copy semantics. Apply via set_current_epoch_dfsp_close_snapshot() and verify all fields appear in EpochInfo and survive into archived EpochSummary. |

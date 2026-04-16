@@ -5,21 +5,27 @@ items:
   - id: ERR-001
     section: "10.1"
     summary: "EpochError Enum"
-    status: gap
+    status: verified
     spec_ref: "SPEC.md#section-101"
-    tests: []
-    notes: ""
+    tests:
+      - tests/error_types/err_001_test.rs
+    completion_date: "2026-04-16"
+    notes: "9-variant EpochError with thiserror derivation. PhaseMismatch uses EpochPhase (implemented early as TYP-001 dependency). Competition variant uses #[from] CheckpointCompetitionError. 12 tests."
   - id: ERR-002
     section: "10.2"
     summary: "CheckpointCompetitionError Enum"
-    status: gap
+    status: verified
     spec_ref: "SPEC.md#section-102"
-    tests: []
-    notes: ""
+    tests:
+      - tests/error_types/err_002_test.rs
+    completion_date: "2026-04-16"
+    notes: "6-variant CheckpointCompetitionError with thiserror derivation. Implemented before ERR-001 (no forward deps). 9 tests."
   - id: ERR-003
     section: "10"
     summary: "Error Conversions and Display"
-    status: gap
+    status: verified
     spec_ref: "SPEC.md#section-10"
-    tests: []
-    notes: ""
+    tests:
+      - tests/error_types/err_003_test.rs
+    completion_date: "2026-04-16"
+    notes: "From<CheckpointCompetitionError> for EpochError via #[from], ? operator propagation, chained Display. 7 tests."

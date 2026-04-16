@@ -5,10 +5,12 @@ items:
   - id: TYP-001
     section: "3.2"
     summary: "EpochPhase and PhaseTransition"
-    status: gap
+    status: verified
     spec_ref: "SPEC.md#section-32"
-    tests: []
-    notes: ""
+    tests:
+      - tests/epoch_types/typ_001_test.rs
+    completion_date: "2026-04-16"
+    notes: "EpochPhase (4 variants, 7 methods, Display impl) and PhaseTransition struct. Implemented early (Phase 2 context) because ERR-001::PhaseMismatch requires EpochPhase. 15 tests."
   - id: TYP-002
     section: "3.4"
     summary: "EpochInfo Struct"

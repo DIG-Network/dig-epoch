@@ -26,13 +26,13 @@ After completing a requirement: write tests, verify they pass, update TRACKING.y
 
 ## Phase 2: Error Types
 
-- [ ] ERR-001 — EpochError enum with all variants
-- [ ] ERR-002 — CheckpointCompetitionError enum
-- [ ] ERR-003 — Error From conversions and Display messages
+- [x] ERR-001 — EpochError enum with all variants
+- [x] ERR-002 — CheckpointCompetitionError enum
+- [x] ERR-003 — Error From conversions and Display messages
 
 ## Phase 3: Epoch Types
 
-- [ ] TYP-001 — EpochPhase enum and PhaseTransition struct
+- [x] TYP-001 — EpochPhase enum and PhaseTransition struct
 - [ ] TYP-002 — EpochInfo struct with all fields
 - [ ] TYP-003 — EpochSummary struct (immutable archive)
 - [ ] TYP-004 — DfspCloseSnapshot struct
