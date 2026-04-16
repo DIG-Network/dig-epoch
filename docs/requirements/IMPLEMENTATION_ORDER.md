@@ -47,8 +47,8 @@ After completing a requirement: write tests, verify they pass, update TRACKING.y
 - [x] HEA-003 — is_genesis_checkpoint_block(h), is_epoch_checkpoint_block(h), is_checkpoint_class_block(h), and ensure_checkpoint_block_empty()
 - [x] HEA-004 — l1_range_for_epoch(genesis_l1_height, epoch) -> (u32, u32)
 - [x] HEA-005 — Height-epoch round-trip identity property
-- [ ] HEA-006 — last_committed_height_in_epoch
-- [ ] HEA-007 — is_first_block_after_epoch_checkpoint
+- [x] HEA-006 — last_committed_height_in_epoch
+- [x] HEA-007 — is_first_block_after_epoch_checkpoint
 
 ## Phase 5: Phase State Machine
 

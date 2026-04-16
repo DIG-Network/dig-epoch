@@ -100,3 +100,25 @@ pub fn l1_range_for_epoch(genesis_l1_height: u32, epoch: u64) -> (u32, u32) {
     let end = start + EPOCH_L1_BLOCKS - 1;
     (start, end)
 }
+
+// -----------------------------------------------------------------------------
+// HEA-006 — last_committed_height_in_epoch
+// -----------------------------------------------------------------------------
+
+/// Returns the last L2 height included in this epoch's checkpoint.
+///
+/// Caps at `epoch_checkpoint_height(epoch)` even if `tip_height` is higher.
+pub fn last_committed_height_in_epoch(epoch: u64, tip_height: u64) -> u64 {
+    std::cmp::min(tip_height, epoch_checkpoint_height(epoch))
+}
+
+// -----------------------------------------------------------------------------
+// HEA-007 — is_first_block_after_epoch_checkpoint
+// -----------------------------------------------------------------------------
+
+/// Returns true if `height` is the first block after an epoch checkpoint.
+///
+/// True at h=33, 65, 97, … — each epoch's opening block after epoch 0.
+pub fn is_first_block_after_epoch_checkpoint(height: u64) -> bool {
+    height > 1 && (height - 1) % BLOCKS_PER_EPOCH == 0
+}

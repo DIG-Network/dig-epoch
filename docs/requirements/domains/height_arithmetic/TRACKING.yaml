@@ -50,14 +50,18 @@ items:
   - id: HEA-006
     section: "5.5"
     summary: "last_committed_height_in_epoch"
-    status: gap
+    status: verified
     spec_ref: "SPEC.md#section-55"
-    tests: []
-    notes: ""
+    tests:
+      - tests/height_arithmetic/hea_006_test.rs
+    completion_date: "2026-04-16"
+    notes: "Caps tip_height at epoch_checkpoint_height(epoch). 6 tests."
   - id: HEA-007
     section: "5.2"
     summary: "is_first_block_after_epoch_checkpoint"
-    status: gap
+    status: verified
     spec_ref: "SPEC.md#section-52"
-    tests: []
-    notes: ""
+    tests:
+      - tests/height_arithmetic/hea_007_test.rs
+    completion_date: "2026-04-16"
+    notes: "h > 1 && (h-1) % BLOCKS_PER_EPOCH == 0 detects epoch-opening blocks for bonus. 8 tests."

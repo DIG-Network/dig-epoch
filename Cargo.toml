@@ -316,3 +316,13 @@ path = "tests/height_arithmetic/hea_004_test.rs"
 [[test]]
 name = "hea_005_test"
 path = "tests/height_arithmetic/hea_005_test.rs"
+
+# HEA-006: last_committed_height_in_epoch — caps tip at epoch checkpoint height.
+[[test]]
+name = "hea_006_test"
+path = "tests/height_arithmetic/hea_006_test.rs"
+
+# HEA-007: is_first_block_after_epoch_checkpoint — detects h=33,65,97,... for bonus.
+[[test]]
+name = "hea_007_test"
+path = "tests/height_arithmetic/hea_007_test.rs"
