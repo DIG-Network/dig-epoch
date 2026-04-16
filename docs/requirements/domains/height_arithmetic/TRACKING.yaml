@@ -5,38 +5,48 @@ items:
   - id: HEA-001
     section: "5.1"
     summary: "epoch_for_block_height"
-    status: gap
+    status: verified
     spec_ref: "SPEC.md#section-51"
-    tests: []
-    notes: ""
+    tests:
+      - tests/height_arithmetic/hea_001_test.rs
+    completion_date: "2026-04-16"
+    notes: "Pure function (height-1)/BLOCKS_PER_EPOCH. 8 tests."
   - id: HEA-002
     section: "5.1"
     summary: "first_height and checkpoint_height"
-    status: gap
+    status: verified
     spec_ref: "SPEC.md#section-51"
-    tests: []
-    notes: ""
+    tests:
+      - tests/height_arithmetic/hea_002_test.rs
+    completion_date: "2026-04-16"
+    notes: "first_height_in_epoch and epoch_checkpoint_height inverse functions. 9 tests."
   - id: HEA-003
     section: "5.2"
     summary: "Checkpoint Block Detection"
-    status: gap
+    status: verified
     spec_ref: "SPEC.md#section-52"
-    tests: []
-    notes: ""
+    tests:
+      - tests/height_arithmetic/hea_003_test.rs
+    completion_date: "2026-04-16"
+    notes: "is_genesis/epoch/class_checkpoint_block predicates + ensure_checkpoint_block_empty guard. 11 tests."
   - id: HEA-004
     section: "5.4"
     summary: "L1 Range for Epoch"
-    status: gap
+    status: verified
     spec_ref: "SPEC.md#section-54"
-    tests: []
-    notes: ""
+    tests:
+      - tests/height_arithmetic/hea_004_test.rs
+    completion_date: "2026-04-16"
+    notes: "l1_range_for_epoch returning inclusive (start, end) pair. 7 tests."
   - id: HEA-005
     section: "14.10"
     summary: "Round-Trip Identity"
-    status: gap
+    status: verified
     spec_ref: "SPEC.md#section-1410"
-    tests: []
-    notes: ""
+    tests:
+      - tests/height_arithmetic/hea_005_test.rs
+    completion_date: "2026-04-16"
+    notes: "Property tests over heights 1..=1,000,000 and epochs 0..=10,000. 8 tests."
   - id: HEA-006
     section: "5.5"
     summary: "last_committed_height_in_epoch"

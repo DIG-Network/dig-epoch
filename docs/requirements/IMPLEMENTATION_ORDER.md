@@ -42,11 +42,13 @@ After completing a requirement: write tests, verify they pass, update TRACKING.y
 
 ## Phase 4: Height-Epoch Arithmetic
 
-- [ ] HEA-001 — epoch_for_block_height(h) -> u64
-- [ ] HEA-002 — first_height_in_epoch(e) and epoch_checkpoint_height(e)
-- [ ] HEA-003 — is_genesis_checkpoint_block(h), is_epoch_checkpoint_block(h), is_checkpoint_class_block(h), and ensure_checkpoint_block_empty()
-- [ ] HEA-004 — l1_range_for_epoch(genesis_l1_height, epoch) -> (u32, u32)
-- [ ] HEA-005 — Height-epoch round-trip identity property
+- [x] HEA-001 — epoch_for_block_height(h) -> u64
+- [x] HEA-002 — first_height_in_epoch(e) and epoch_checkpoint_height(e)
+- [x] HEA-003 — is_genesis_checkpoint_block(h), is_epoch_checkpoint_block(h), is_checkpoint_class_block(h), and ensure_checkpoint_block_empty()
+- [x] HEA-004 — l1_range_for_epoch(genesis_l1_height, epoch) -> (u32, u32)
+- [x] HEA-005 — Height-epoch round-trip identity property
+- [ ] HEA-006 — last_committed_height_in_epoch
+- [ ] HEA-007 — is_first_block_after_epoch_checkpoint
 
 ## Phase 5: Phase State Machine
 

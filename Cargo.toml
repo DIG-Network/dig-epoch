@@ -286,3 +286,33 @@ path = "tests/epoch_types/typ_002_test.rs"
 [[test]]
 name = "typ_003_test"
 path = "tests/epoch_types/typ_003_test.rs"
+
+# HEA-001: epoch_for_block_height — proves (height-1)/BLOCKS_PER_EPOCH formula
+# for genesis, epoch boundaries, and large heights.
+[[test]]
+name = "hea_001_test"
+path = "tests/height_arithmetic/hea_001_test.rs"
+
+# HEA-002: first_height_in_epoch and epoch_checkpoint_height — proves epoch-to-height
+# inverse functions and that each epoch spans exactly BLOCKS_PER_EPOCH heights.
+[[test]]
+name = "hea_002_test"
+path = "tests/height_arithmetic/hea_002_test.rs"
+
+# HEA-003: Checkpoint block detection — proves is_genesis_checkpoint_block,
+# is_epoch_checkpoint_block, is_checkpoint_class_block, ensure_checkpoint_block_empty.
+[[test]]
+name = "hea_003_test"
+path = "tests/height_arithmetic/hea_003_test.rs"
+
+# HEA-004: l1_range_for_epoch — proves (start, end) L1 window computation,
+# width = EPOCH_L1_BLOCKS, contiguous ranges across epochs.
+[[test]]
+name = "hea_004_test"
+path = "tests/height_arithmetic/hea_004_test.rs"
+
+# HEA-005: Round-trip identity — property tests over 1..=1,000,000 heights and
+# 0..=10,000 epochs verifying height↔epoch bijection invariants.
+[[test]]
+name = "hea_005_test"
+path = "tests/height_arithmetic/hea_005_test.rs"
