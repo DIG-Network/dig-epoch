@@ -1,6 +1,10 @@
 # Build artifacts
 /target/
 
+# Cargo lockfile — libraries do not commit Cargo.lock (matches `dig-block` and
+# `dig-constants` conventions). Binaries would commit it.
+Cargo.lock
+
 # IDE
 .idea/
 .vscode/

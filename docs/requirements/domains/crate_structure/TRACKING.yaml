@@ -5,10 +5,16 @@ items:
   - id: STR-001
     section: "1.2"
     summary: "Cargo.toml Dependencies"
-    status: gap
+    status: verified
     spec_ref: "SPEC.md#section-12"
-    tests: []
-    notes: ""
+    tests:
+      - tests/crate_structure/test_dependency_imports.rs
+    completion_date: "2026-04-16"
+    # `commit` intentionally omitted: backfilling a self-referential SHA into a
+    # tracked file forces a git amend, which mutates the SHA, which invalidates
+    # the backfill. Use `git log --grep 'STR-001'` on `feature/dig-epoch-implementation`
+    # to find the authoritative commit.
+    notes: "All 13 spec'd dependencies declared with exact version pins (DIG 0.1, Chia low-level 0.26, Chia SDK 0.30). `cargo check`, `cargo test --test test_dependency_imports` (10/10 pass), `cargo clippy --all-targets -- -D warnings`, and `cargo fmt --check` all clean. DIG crates use `{ version = \"0.1\", path = \"../../../../<crate>\" }` while unpublished; mirrors `dig-blockstore` bootstrap convention."
   - id: STR-002
     section: "13"
     summary: "Module Hierarchy"

@@ -1,0 +1,171 @@
+# =============================================================================
+# dig-epoch — Cargo manifest
+# =============================================================================
+#
+# This manifest implements requirement **STR-001** of the `crate_structure`
+# domain. See:
+#   - Normative text   : docs/requirements/domains/crate_structure/NORMATIVE.md
+#   - Detailed spec    : docs/requirements/domains/crate_structure/specs/STR-001.md
+#   - Verification     : docs/requirements/domains/crate_structure/VERIFICATION.md
+#
+# STR-001 mandates an exact dependency set with exact version pins. DO NOT
+# upgrade any pinned version without first amending the spec — the Chia
+# ecosystem version skew here (0.26 vs 0.30) is intentional and matches the
+# sibling crates `dig-block` and `dig-constants`.
+#
+# Versioning rules (from SPEC §1.2):
+#   * DIG ecosystem crates (`dig-block`, `dig-constants`) are pinned to `0.1`.
+#   * Chia low-level crates (`chia-protocol`, `chia-bls`, `chia-consensus`,
+#     `chia-sha2`, `clvm-utils`) are pinned to `0.26`.
+#   * Chia SDK crates (`chia-sdk-types`, `chia-sdk-signer`) are pinned to
+#     `0.30`. The SDK family has its own release cadence.
+#   * Utility crates (`bincode`, `serde`, `thiserror`, `parking_lot`) are not
+#     spec-pinned; we pick the most recent compatible major that still
+#     interops with the rest of the ecosystem. `bincode = "1"` because
+#     `dig-block` serialises with the v1 API; `serde = "1"` because the
+#     `derive` feature surface is stable; `thiserror = "2"` matches dig-block;
+#     `parking_lot = "0.12"` is the current stable branch.
+#
+# Integration tests live under `tests/crate_structure/` rather than the
+# default flat `tests/` layout, so `autotests = false` is set and each
+# STR-/phase test file is wired in via an explicit `[[test]]` stanza below.
+# This mirrors the convention used by `dig-block` and keeps test names
+# aligned with requirement IDs.
+# =============================================================================
+
+[package]
+name = "dig-epoch"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.75.0"
+description = "DIG L2 epoch geometry, phase machine, manager, and checkpoint competition types"
+license = "MIT"
+authors = ["DIG Network"]
+repository = "https://github.com/DIG-Network/dig-epoch"
+readme = "README.md"
+keywords = ["blockchain", "l2", "chia", "epoch", "dig"]
+categories = ["cryptography::cryptocurrencies"]
+# Only explicit `[[test]]` targets are compiled as integration tests. The
+# `tests/crate_structure/` subdirectory would otherwise be skipped entirely by
+# Cargo's auto-discovery (which only recurses one level). Wiring each file in
+# manually also guarantees STR-/phase test names appear verbatim in test
+# output — easier to cross-reference with TRACKING.yaml.
+autotests = false
+
+[lib]
+path = "src/lib.rs"
+
+# -----------------------------------------------------------------------------
+# [dependencies] — STR-001
+# -----------------------------------------------------------------------------
+#
+# Every crate below is exercised by `tests/crate_structure/test_dependency_imports.rs`
+# so an accidental removal immediately breaks the STR-001 integration test
+# (either via `cargo check` failure or via a missing symbol).
+# -----------------------------------------------------------------------------
+[dependencies]
+
+# --- DIG ecosystem ----------------------------------------------------------
+# **Bootstrap note (mirrors `dig-blockstore`'s Cargo.toml):** `dig-block` and
+# `dig-constants` are not yet published on crates.io, so we declare them with
+# a `version = "0.1"` pin AND a `path = "..."` fallback to the sibling
+# repository checkout. Cargo treats the `version` as the authoritative
+# constraint for transitive resolution and publication (it would refuse to
+# publish with an unresolved path-only dep), while the `path` lets the crate
+# build locally today. Once these crates are published, the `path` entries
+# can be removed with no semantic change.
+#
+# Paths are expressed relative to THIS manifest. This crate is developed
+# inside an isolated worktree at
+# `dig-epoch/.claude/worktrees/dig-epoch-impl/`, so reaching the sibling
+# repositories requires four `..` steps:
+#   worktree-impl -> worktrees -> .claude -> dig-epoch -> dig_network
+# from which `dig-block` and `dig-constants` are siblings.
+#
+# `dig-block` provides canonical block/checkpoint wire types that dig-epoch
+# **must** re-use rather than redefine (start.md Hard Requirement 1):
+#   * Checkpoint, CheckpointSubmission
+#   * SignerBitmap
+#   * L2BlockHeader
+dig-block = { version = "0.1", path = "../../../../dig-block" }
+
+# `dig-constants` provides the NetworkConstants / genesis challenge / network
+# ID values dig-epoch needs when constructing EpochManager. Re-use rule:
+# start.md Hard Requirement 2.
+dig-constants = { version = "0.1", path = "../../../../dig-constants" }
+
+# --- Chia ecosystem (low-level, 0.26 cohort) --------------------------------
+# `chia-protocol` — Bytes32 (32-byte hash type) used universally for state
+# roots, checkpoint digests, network IDs. Hard Requirement 3.
+chia-protocol = "0.26"
+
+# `chia-bls` — Signature, PublicKey, `aggregate`, `aggregate_verify`.
+# dig-epoch's checkpoint competition aggregates BLS signatures from signers.
+# Hard Requirement 4.
+chia-bls = "0.26"
+
+# `chia-consensus` — `compute_merkle_set_root` for the withdrawals Merkle
+# set; this is a *set* root (chia-consensus semantics), distinct from the
+# leaf-ordered tree root provided by chia-sdk-types. Hard Requirement 5.
+chia-consensus = "0.26"
+
+# `chia-sha2` — SHA-256 hasher used for checkpoint data and digest
+# computation. Hard Requirement 7.
+chia-sha2 = "0.26"
+
+# `clvm-utils` — TreeHash / tree_hash for CLVM-semantic tree hashing, used
+# by the verification layer when binding CLVM objects into epoch digests.
+clvm-utils = "0.26"
+
+# --- Chia ecosystem (SDK, 0.30 cohort) --------------------------------------
+# `chia-sdk-types` — MerkleTree, MerkleProof, MAINNET_CONSTANTS. dig-epoch
+# uses these for the *ordered* Merkle tree that secures per-epoch block
+# roots and per-block inclusion proofs. Hard Requirement 6.
+chia-sdk-types = "0.30"
+
+# `chia-sdk-signer` — AggSigConstants, which encode the domain-separation
+# bytes used when constructing the checkpoint signing digest.
+chia-sdk-signer = "0.30"
+
+# --- Utility crates ---------------------------------------------------------
+# `bincode` — compact binary serialisation for every epoch wire type.
+# Pinned to the 1.x line for API compatibility with dig-block.
+bincode = "1"
+
+# `serde` with the `derive` feature so that every epoch type can derive
+# Serialize / Deserialize. The `derive` feature is explicitly required by
+# STR-001's acceptance criteria and verified by `test_serde_derive`.
+serde = { version = "1", features = ["derive"] }
+
+# `thiserror` — ergonomic error-type derivation for EpochError and
+# CheckpointCompetitionError (Phase 2, ERR-001/ERR-002). Pinned to the
+# same major as `dig-block` (2.x).
+thiserror = "2"
+
+# `parking_lot` — RwLock for EpochManager interior mutability
+# (start.md Hard Requirement 12). `parking_lot::RwLock` is preferred over
+# `std::sync::RwLock` because it does not poison on panic and is materially
+# faster under contention.
+parking_lot = "0.12"
+
+# -----------------------------------------------------------------------------
+# [dev-dependencies]
+# -----------------------------------------------------------------------------
+# None required at STR-001. The STR-001 integration test only uses the
+# production `[dependencies]` graph; adding dev-deps here would needlessly
+# widen the test surface. Later phases (e.g. proptest round-trips, hex
+# literals) may introduce dev-dependencies via their own requirement.
+
+# =============================================================================
+# Integration test targets
+# =============================================================================
+# Each requirement gets its own `[[test]]` stanza. This is required because
+# `autotests = false` disables default discovery, and because the
+# `tests/crate_structure/` subdirectory layout would not be discovered even
+# with autotests enabled (Cargo only scans the top level of `tests/`).
+
+# STR-001: Cargo.toml dependencies — proves the dep graph resolves and every
+# spec'd crate is both declared and usable.
+[[test]]
+name = "test_dependency_imports"
+path = "tests/crate_structure/test_dependency_imports.rs"
