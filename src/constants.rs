@@ -314,3 +314,38 @@ pub const MINIMUM_EPOCH_REWARD: u64 = 2_000_000_000_000;
 
 /// Bonus reward for the first block after an epoch checkpoint.
 pub const EPOCH_FIRST_BLOCK_BONUS: u64 = 100_000_000_000;
+
+// -----------------------------------------------------------------------------
+// CON-004 — Fee and reward distribution constants
+// -----------------------------------------------------------------------------
+//
+// Spec refs:
+//   * Normative  : docs/requirements/domains/constants/NORMATIVE.md#con-004
+//   * SPEC source: docs/resources/SPEC.md §2.3
+//
+// Invariants (SPEC §2.3):
+//   FEE_PROPOSER_SHARE_PCT + FEE_BURN_SHARE_PCT == 100
+//   PROPOSER_REWARD_SHARE + ATTESTER_REWARD_SHARE + EF_SPAWNER_REWARD_SHARE
+//     + SCORE_SUBMITTER_REWARD_SHARE + FINALIZER_REWARD_SHARE == 100
+// -----------------------------------------------------------------------------
+
+/// Proposer share of collected transaction fees (percentage).
+pub const FEE_PROPOSER_SHARE_PCT: u64 = 50;
+
+/// Burn share of collected transaction fees (percentage).
+pub const FEE_BURN_SHARE_PCT: u64 = 50;
+
+/// Proposer share of the epoch block reward.
+pub const PROPOSER_REWARD_SHARE: u64 = 10;
+
+/// Attester share of the epoch block reward.
+pub const ATTESTER_REWARD_SHARE: u64 = 80;
+
+/// EF spawner share of the epoch block reward.
+pub const EF_SPAWNER_REWARD_SHARE: u64 = 3;
+
+/// Score submitter share of the epoch block reward.
+pub const SCORE_SUBMITTER_REWARD_SHARE: u64 = 4;
+
+/// Finalizer share of the epoch block reward.
+pub const FINALIZER_REWARD_SHARE: u64 = 3;

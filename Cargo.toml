@@ -204,3 +204,9 @@ path = "tests/constants/con_002_test.rs"
 [[test]]
 name = "con_003_test"
 path = "tests/constants/con_003_test.rs"
+
+# CON-004: Fee and reward distribution constants — proves FEE_PROPOSER_SHARE_PCT,
+# FEE_BURN_SHARE_PCT, and the 5-role epoch reward shares sum to 100.
+[[test]]
+name = "con_004_test"
+path = "tests/constants/con_004_test.rs"

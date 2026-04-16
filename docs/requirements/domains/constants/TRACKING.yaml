@@ -32,10 +32,12 @@ items:
   - id: CON-004
     section: "2.3"
     summary: "Fee and Reward Distribution"
-    status: gap
+    status: verified
     spec_ref: "SPEC.md#section-23"
-    tests: []
-    notes: ""
+    tests:
+      - tests/constants/con_004_test.rs
+    completion_date: "2026-04-16"
+    notes: "7 distribution constants declared in src/constants.rs: FEE_PROPOSER_SHARE_PCT (50), FEE_BURN_SHARE_PCT (50), PROPOSER_REWARD_SHARE (10), ATTESTER_REWARD_SHARE (80), EF_SPAWNER_REWARD_SHARE (3), SCORE_SUBMITTER_REWARD_SHARE (4), FINALIZER_REWARD_SHARE (3). 9 tests cover all values and both 100-sum invariants."
   - id: CON-005
     section: "2.4-2.6"
     summary: "DFSP, Consensus, Slashing Constants"
