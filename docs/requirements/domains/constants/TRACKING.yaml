@@ -5,10 +5,12 @@ items:
   - id: CON-001
     section: "2.1"
     summary: "Epoch Geometry"
-    status: gap
+    status: verified
     spec_ref: "SPEC.md#section-21"
-    tests: []
-    notes: ""
+    tests:
+      - tests/constants/con_001_test.rs
+    completion_date: "2026-04-16"
+    notes: "BLOCKS_PER_EPOCH (u64=32), EPOCH_L1_BLOCKS (u32=32), GENESIS_HEIGHT (u64=1) declared in src/constants.rs. Seven integration tests cover the full Test Plan table."
   - id: CON-002
     section: "2.2"
     summary: "Phase Boundaries"

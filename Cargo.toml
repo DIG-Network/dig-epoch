@@ -181,3 +181,11 @@ path = "tests/crate_structure/str_001_test.rs"
 [[test]]
 name = "str_002_test"
 path = "tests/crate_structure/str_002_test.rs"
+
+# CON-001: Epoch geometry constants — proves BLOCKS_PER_EPOCH, EPOCH_L1_BLOCKS,
+# and GENESIS_HEIGHT are declared with the spec-mandated types and values, and
+# that height-to-epoch arithmetic using them produces correct epoch numbers
+# for the documented ranges.
+[[test]]
+name = "con_001_test"
+path = "tests/constants/con_001_test.rs"

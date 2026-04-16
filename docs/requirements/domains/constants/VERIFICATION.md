@@ -7,7 +7,7 @@
 
 | ID | Status | Summary | Verification Approach |
 |----|--------|---------|----------------------|
-| CON-001 | gap | Epoch Geometry | Unit test: verify BLOCKS_PER_EPOCH == 32, EPOCH_L1_BLOCKS == 32, GENESIS_HEIGHT == 1. Verify all three are publicly accessible from the crate root. |
+| CON-001 | verified | Epoch Geometry | Unit test: verify BLOCKS_PER_EPOCH == 32, EPOCH_L1_BLOCKS == 32, GENESIS_HEIGHT == 1. Verify all three are publicly accessible from the crate root. **Evidence:** `tests/constants/con_001_test.rs` (7/7 passing, 2026-04-16) proves the three constants have the spec-mandated types (`u64`/`u32`/`u64`) and values (32/32/1) and that height-to-epoch arithmetic places heights 1, 32, 33, 64 in the correct epochs. |
 | CON-002 | gap | Phase Boundaries | Unit test: verify PHASE_BLOCK_PRODUCTION_END_PCT == 50, PHASE_CHECKPOINT_END_PCT == 75, PHASE_FINALIZATION_END_PCT == 100. Verify boundaries are monotonically increasing and partition the 0-100% range into three intervals. |
 | CON-003 | gap | Reward Economics Constants | Unit test: verify each constant matches its specified value. Cross-check derived relationships: INITIAL_EPOCH_REWARD == BLOCKS_PER_EPOCH * INITIAL_BLOCK_REWARD, INITIAL_BLOCK_REWARD == MOJOS_PER_L2 * 64 / 200 (from emission rate derivation). Verify TAIL_BLOCK_REWARD < INITIAL_BLOCK_REWARD. Verify HALVINGS_BEFORE_TAIL == 4. |
 | CON-004 | gap | Fee and Reward Distribution | Unit test: verify each constant matches its specified value. Cross-check: FEE_PROPOSER_SHARE_PCT + FEE_BURN_SHARE_PCT == 100. Cross-check: PROPOSER_REWARD_SHARE + ATTESTER_REWARD_SHARE + EF_SPAWNER_REWARD_SHARE + SCORE_SUBMITTER_REWARD_SHARE + FINALIZER_REWARD_SHARE == 100. |
