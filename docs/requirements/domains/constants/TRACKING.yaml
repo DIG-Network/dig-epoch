@@ -14,10 +14,12 @@ items:
   - id: CON-002
     section: "2.2"
     summary: "Phase Boundaries"
-    status: gap
+    status: verified
     spec_ref: "SPEC.md#section-22"
-    tests: []
-    notes: ""
+    tests:
+      - tests/constants/con_002_test.rs
+    completion_date: "2026-04-16"
+    notes: "PHASE_BLOCK_PRODUCTION_END_PCT (u32=50), PHASE_CHECKPOINT_END_PCT (u32=75), PHASE_FINALIZATION_END_PCT (u32=100) declared in src/constants.rs. Seven integration tests cover value checks, type checks, ascending order, 100%-boundary, and asymmetric phase widths."
   - id: CON-003
     section: "2.3"
     summary: "Reward Economics Constants"

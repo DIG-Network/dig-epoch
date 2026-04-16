@@ -189,3 +189,11 @@ path = "tests/crate_structure/str_002_test.rs"
 [[test]]
 name = "con_001_test"
 path = "tests/constants/con_001_test.rs"
+
+# CON-002: Phase boundary constants — proves PHASE_BLOCK_PRODUCTION_END_PCT,
+# PHASE_CHECKPOINT_END_PCT, and PHASE_FINALIZATION_END_PCT are declared with
+# the correct u32 types, values (50/75/100), and that they are strictly
+# ascending and partition the 0-100% window into three intervals.
+[[test]]
+name = "con_002_test"
+path = "tests/constants/con_002_test.rs"

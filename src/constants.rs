@@ -211,3 +211,52 @@ pub const EPOCH_L1_BLOCKS: u32 = 32;
 /// to genesis), and REW-002 (the epoch-opening bonus triggers when a
 /// recorded height equals `e * BLOCKS_PER_EPOCH + GENESIS_HEIGHT`).
 pub const GENESIS_HEIGHT: u64 = 1;
+
+// -----------------------------------------------------------------------------
+// CON-002 — Phase boundary percentages
+// -----------------------------------------------------------------------------
+//
+// Spec refs:
+//   * Normative    : docs/requirements/domains/constants/NORMATIVE.md#con-002
+//   * SPEC source  : docs/resources/SPEC.md §2.2
+//
+// These three values define where each active phase ends within the
+// EPOCH_L1_BLOCKS-wide L1 window. Phase progress is computed as:
+//   `progress_pct = (l1_now - epoch_start_l1) * 100 / EPOCH_L1_BLOCKS`
+// and compared against these thresholds in order:
+//   0 % … 50 %  → BlockProduction phase
+//   50 % … 75 % → Checkpoint phase
+//   75 % … 100 %→ Finalization phase
+//   >= 100 %    → Complete phase
+//
+// Types:
+//   * `u32` — L1 heights are `u32` (Chia), so the progress formula stays
+//     inside `u32` arithmetic without casts. The percentages are well within
+//     [0, 100], so no overflow risk.
+//
+// Values are **non-negotiable** (SPEC §2.2). Changing any of them shifts
+// phase windows for all validators and breaks consensus.
+// -----------------------------------------------------------------------------
+
+/// L1-progress percentage at which the BlockProduction phase ends.
+///
+/// **Value (locked by [SPEC §2.2]):** `50`.
+///
+/// When `(l1_now - epoch_start_l1) * 100 / EPOCH_L1_BLOCKS >= 50` the phase
+/// transitions from `BlockProduction` to `Checkpoint`.
+pub const PHASE_BLOCK_PRODUCTION_END_PCT: u32 = 50;
+
+/// L1-progress percentage at which the Checkpoint submission phase ends.
+///
+/// **Value (locked by [SPEC §2.2]):** `75`.
+///
+/// When progress reaches 75% the phase transitions from `Checkpoint` to
+/// `Finalization`.
+pub const PHASE_CHECKPOINT_END_PCT: u32 = 75;
+
+/// L1-progress percentage at which the Finalization phase ends.
+///
+/// **Value (locked by [SPEC §2.2]):** `100`.
+///
+/// When progress reaches 100% the phase transitions to `Complete`.
+pub const PHASE_FINALIZATION_END_PCT: u32 = 100;
