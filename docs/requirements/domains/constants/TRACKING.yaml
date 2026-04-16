@@ -50,7 +50,9 @@ items:
   - id: CON-006
     section: "7.1"
     summary: "Sentinel Constants"
-    status: gap
+    status: verified
     spec_ref: "SPEC.md#section-71"
-    tests: []
-    notes: ""
+    tests:
+      - tests/constants/con_006_test.rs
+    completion_date: "2026-04-16"
+    notes: "EMPTY_ROOT (Bytes32) declared in src/constants.rs as SHA-256 of empty string. 3 tests: hex literal comparison, runtime chia-sha2 cross-check, and type accessibility."

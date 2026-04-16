@@ -42,6 +42,8 @@
 //! removing it is explicitly STR-002's cleanup task, not CON-001's, and
 //! pulling it out early would scope-creep across requirements.
 
+use chia_protocol::Bytes32;
+
 /// Sentinel marker proving the module exists, is declared in `lib.rs`, and
 /// is reachable from an external crate at its canonical path.
 ///
@@ -397,3 +399,22 @@ pub const DFSP_SLASH_LOOKBACK_EPOCHS: u64 = SLASH_LOOKBACK_EPOCHS;
 
 /// Epochs before a withdrawal completes.
 pub const WITHDRAWAL_DELAY_EPOCHS: u64 = 50;
+
+// -----------------------------------------------------------------------------
+// CON-006 — Sentinel constants
+// -----------------------------------------------------------------------------
+//
+// Spec refs:
+//   * Normative    : docs/requirements/domains/constants/NORMATIVE.md#con-006
+//   * Detailed spec: docs/requirements/domains/constants/specs/CON-006.md
+//   * SPEC source  : docs/resources/SPEC.md §7.1, 7.3, 14.1
+// -----------------------------------------------------------------------------
+
+/// SHA-256 hash of the empty string (`e3b0c44…b855`).
+///
+/// Used as the default root for empty Merkle trees (VER-001, VER-003) and
+/// as the initial value for all four DFSP roots in `EpochInfo::new()`.
+pub const EMPTY_ROOT: Bytes32 = Bytes32::new([
+    0xe3, 0xb0, 0xc4, 0x42, 0x98, 0xfc, 0x1c, 0x14, 0x9a, 0xfb, 0xf4, 0xc8, 0x99, 0x6f, 0xb9, 0x24,
+    0x27, 0xae, 0x41, 0xe4, 0x64, 0x9b, 0x93, 0x4c, 0xa4, 0x95, 0x99, 0x1b, 0x78, 0x52, 0xb8, 0x55,
+]);

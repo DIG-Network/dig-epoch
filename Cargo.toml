@@ -218,3 +218,10 @@ path = "tests/constants/con_004_test.rs"
 [[test]]
 name = "con_005_test"
 path = "tests/constants/con_005_test.rs"
+
+# CON-006: Sentinel constants — proves EMPTY_ROOT is the SHA-256 of the empty
+# string via both hex literal comparison and a runtime Sha256::new().finalize()
+# cross-check.
+[[test]]
+name = "con_006_test"
+path = "tests/constants/con_006_test.rs"
