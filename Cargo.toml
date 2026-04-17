@@ -85,12 +85,12 @@ path = "src/lib.rs"
 #   * Checkpoint, CheckpointSubmission
 #   * SignerBitmap
 #   * L2BlockHeader
-dig-block = { version = "0.1", path = "../dig-block" }
+dig-block = "0.1"
 
 # `dig-constants` provides the NetworkConstants / genesis challenge / network
 # ID values dig-epoch needs when constructing EpochManager. Re-use rule:
 # start.md Hard Requirement 2.
-dig-constants = { version = "0.1", path = "../dig-constants" }
+dig-constants = "0.1"
 
 # --- Chia ecosystem (low-level, 0.26 cohort) --------------------------------
 # `chia-protocol` — Bytes32 (32-byte hash type) used universally for state
