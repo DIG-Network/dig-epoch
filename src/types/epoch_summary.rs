@@ -14,6 +14,7 @@ pub const STR_002_MODULE_PRESENT: () = ();
 use chia_protocol::Bytes32;
 use serde::{Deserialize, Serialize};
 
+use crate::error::EpochError;
 use crate::types::epoch_info::EpochInfo;
 
 /// Immutable archive of a completed epoch.
@@ -49,6 +50,18 @@ pub struct EpochSummary {
     pub active_cid_count: u32,
     /// Active storage nodes at close.
     pub active_node_count: u32,
+}
+
+impl EpochSummary {
+    /// Serializes with bincode. Infallible for well-formed structs.
+    pub fn to_bytes(&self) -> Vec<u8> {
+        bincode::serialize(self).expect("EpochSummary serialization should never fail")
+    }
+
+    /// Deserializes from bincode bytes, returning `EpochError::InvalidData` on failure.
+    pub fn from_bytes(bytes: &[u8]) -> Result<Self, EpochError> {
+        bincode::deserialize(bytes).map_err(|e| EpochError::InvalidData(e.to_string()))
+    }
 }
 
 impl From<EpochInfo> for EpochSummary {

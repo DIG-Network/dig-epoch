@@ -17,8 +17,9 @@ pub const STR_002_MODULE_PRESENT: () = ();
 
 use chia_protocol::Bytes32;
 use dig_block::CheckpointSubmission;
+use serde::{Deserialize, Serialize};
 
-use crate::error::CheckpointCompetitionError;
+use crate::error::{CheckpointCompetitionError, EpochError};
 
 // -----------------------------------------------------------------------------
 // CKP-001 — CompetitionStatus
@@ -27,7 +28,7 @@ use crate::error::CheckpointCompetitionError;
 /// State machine for a checkpoint competition.
 ///
 /// Spec ref: SPEC §3.10 / CKP-001.
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub enum CompetitionStatus {
     /// Competition created but not yet accepting submissions.
     Pending,
@@ -58,7 +59,7 @@ pub enum CompetitionStatus {
 /// Per-epoch checkpoint competition, collecting submissions and selecting a winner.
 ///
 /// Spec ref: SPEC §3.9 / CKP-001.
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CheckpointCompetition {
     /// Epoch this competition belongs to.
     pub epoch: u64,
@@ -204,5 +205,15 @@ impl CheckpointCompetition {
     /// Returns the winning checkpoint submission, if one has been selected.
     pub fn winner(&self) -> Option<&CheckpointSubmission> {
         self.current_winner.and_then(|i| self.submissions.get(i))
+    }
+
+    /// Serializes with bincode. Infallible for well-formed structs.
+    pub fn to_bytes(&self) -> Vec<u8> {
+        bincode::serialize(self).expect("CheckpointCompetition serialization should never fail")
+    }
+
+    /// Deserializes from bincode bytes, returning `EpochError::InvalidData` on failure.
+    pub fn from_bytes(bytes: &[u8]) -> Result<Self, EpochError> {
+        bincode::deserialize(bytes).map_err(|e| EpochError::InvalidData(e.to_string()))
     }
 }

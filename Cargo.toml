@@ -479,3 +479,18 @@ path = "tests/verification/ver_004_test.rs"
 [[test]]
 name = "ver_005_test"
 path = "tests/verification/ver_005_test.rs"
+
+# SER-001: bincode on all 6 serializable epoch types.
+[[test]]
+name = "ser_001_test"
+path = "tests/serialization/ser_001_test.rs"
+
+# SER-002: to_bytes/from_bytes convention + InvalidData error path.
+[[test]]
+name = "ser_002_test"
+path = "tests/serialization/ser_002_test.rs"
+
+# SER-003: Round-trip integrity across all serializable types.
+[[test]]
+name = "ser_003_test"
+path = "tests/serialization/ser_003_test.rs"

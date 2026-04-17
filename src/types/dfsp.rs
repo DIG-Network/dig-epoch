@@ -38,6 +38,9 @@
 pub const STR_002_MODULE_PRESENT: () = ();
 
 use chia_protocol::Bytes32;
+use serde::{Deserialize, Serialize};
+
+use crate::error::EpochError;
 
 // -----------------------------------------------------------------------------
 // TYP-004 — DfspCloseSnapshot
@@ -46,7 +49,7 @@ use chia_protocol::Bytes32;
 /// DFSP state snapshot captured at epoch close, before archival.
 ///
 /// Spec ref: SPEC §3.6 / TYP-004.
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
 pub struct DfspCloseSnapshot {
     /// Collateral registry SMT root at close.
     pub collateral_registry_root: Bytes32,
@@ -62,4 +65,16 @@ pub struct DfspCloseSnapshot {
     pub active_cid_count: u32,
     /// Active storage nodes at close.
     pub active_node_count: u32,
+}
+
+impl DfspCloseSnapshot {
+    /// Serializes with bincode. Infallible for well-formed structs.
+    pub fn to_bytes(&self) -> Vec<u8> {
+        bincode::serialize(self).expect("DfspCloseSnapshot serialization should never fail")
+    }
+
+    /// Deserializes from bincode bytes, returning `EpochError::InvalidData` on failure.
+    pub fn from_bytes(bytes: &[u8]) -> Result<Self, EpochError> {
+        bincode::deserialize(bytes).map_err(|e| EpochError::InvalidData(e.to_string()))
+    }
 }

@@ -136,4 +136,8 @@ pub enum EpochError {
     /// Checkpoint competition error (delegated via `#[from]`).
     #[error("Competition error: {0}")]
     Competition(#[from] CheckpointCompetitionError),
+
+    /// Deserialization failure (bincode, malformed input, etc.).
+    #[error("Invalid data: {0}")]
+    InvalidData(String),
 }

@@ -37,6 +37,8 @@ use chia_protocol::Bytes32;
 use chia_sha2::Sha256;
 use serde::{Deserialize, Serialize};
 
+use crate::error::EpochError;
+
 // -----------------------------------------------------------------------------
 // TYP-006 — EpochBlockLink
 // -----------------------------------------------------------------------------
@@ -89,6 +91,16 @@ impl EpochCheckpointData {
         h.update(self.withdrawals_root.as_ref());
         h.update(self.checkpoint_hash.as_ref());
         Bytes32::new(h.finalize())
+    }
+
+    /// Serializes with bincode. Infallible for well-formed structs.
+    pub fn to_bytes(&self) -> Vec<u8> {
+        bincode::serialize(self).expect("EpochCheckpointData serialization should never fail")
+    }
+
+    /// Deserializes from bincode bytes, returning `EpochError::InvalidData` on failure.
+    pub fn from_bytes(bytes: &[u8]) -> Result<Self, EpochError> {
+        bincode::deserialize(bytes).map_err(|e| EpochError::InvalidData(e.to_string()))
     }
 }
 

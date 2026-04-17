@@ -94,22 +94,22 @@ After completing a requirement: write tests, verify they pass, update TRACKING.y
 - [x] VER-004 — EpochCheckpointData and EpochCheckpointSignMaterial
 - [x] VER-005 — stored_checkpoint_from_epoch_sign_material_with_aggregate_v1()
 
-## Phase 10: DFSP Processing
+## Phase 10: DFSP Processing — DEFERRED (not in current scope)
 
-- [ ] DFS-001 — DfspEpochBurnPolicyV1 and burn context
-- [ ] DFS-002 — Storage proof evaluation context and issuance preview
-- [ ] DFS-003 — Epoch boundary finalize preview and staged outputs
-- [ ] DFS-004 — Finalize roots commitment digest computation
-- [ ] DFS-005 — DFSP activation control (is_dfsp_active_at_height, dfsp_activation_height_for_network)
-- [ ] DFS-006 — DFSP namespace rollup and tail roots computation
-- [ ] DFS-007 — Parse burn policy schedule from string configuration
-- [ ] DFS-008 — Storage proof evaluation step (apply_epoch_storage_proof_evaluation_step_v1)
+- [ ] ~~DFS-001 — DfspEpochBurnPolicyV1 and burn context~~
+- [ ] ~~DFS-002 — Storage proof evaluation context and issuance preview~~
+- [ ] ~~DFS-003 — Epoch boundary finalize preview and staged outputs~~
+- [ ] ~~DFS-004 — Finalize roots commitment digest computation~~
+- [ ] ~~DFS-005 — DFSP activation control (is_dfsp_active_at_height, dfsp_activation_height_for_network)~~
+- [ ] ~~DFS-006 — DFSP namespace rollup and tail roots computation~~
+- [ ] ~~DFS-007 — Parse burn policy schedule from string configuration~~
+- [ ] ~~DFS-008 — Storage proof evaluation step (apply_epoch_storage_proof_evaluation_step_v1)~~
 
 ## Phase 11: Serialization
 
-- [ ] SER-001 — Bincode serialization for all epoch types
-- [ ] SER-002 — to_bytes/from_bytes conventions
-- [ ] SER-003 — Round-trip integrity for all serializable types
+- [x] SER-001 — Bincode serialization for all epoch types
+- [x] SER-002 — to_bytes/from_bytes conventions
+- [x] SER-003 — Round-trip integrity for all serializable types
 
 ---
 

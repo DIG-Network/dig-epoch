@@ -5,21 +5,27 @@ items:
   - id: SER-001
     section: "11.1"
     summary: "Bincode Serialization for All Types"
-    status: gap
+    status: verified
     spec_ref: "SPEC.md#section-111"
-    tests: []
-    notes: ""
+    tests:
+      - tests/serialization/ser_001_test.rs
+    completion_date: "2026-04-16"
+    notes: "Serialize/Deserialize derived on EpochInfo, EpochSummary, DfspCloseSnapshot, CheckpointCompetition (+ CompetitionStatus), RewardDistribution, EpochCheckpointData. Bincode beats JSON on size. 7 tests."
   - id: SER-002
     section: "11.2"
     summary: "to_bytes and from_bytes Conventions"
-    status: gap
+    status: verified
     spec_ref: "SPEC.md#section-112"
-    tests: []
-    notes: ""
+    tests:
+      - tests/serialization/ser_002_test.rs
+    completion_date: "2026-04-16"
+    notes: "Added EpochError::InvalidData variant. All 6 types have to_bytes() (infallible) and from_bytes() (Result<Self, EpochError>). Truncated/empty/garbage inputs all return InvalidData. 6 tests."
   - id: SER-003
     section: "14.9"
     summary: "Round-Trip Integrity"
-    status: gap
+    status: verified
     spec_ref: "SPEC.md#section-149"
-    tests: []
-    notes: ""
+    tests:
+      - tests/serialization/ser_003_test.rs
+    completion_date: "2026-04-16"
+    notes: "Round-trip preserves every field across all 6 types, including CheckpointCompetition::Finalized variant data and EpochCheckpointData signing digest stability. 8 tests."

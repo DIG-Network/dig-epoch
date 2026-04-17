@@ -19,6 +19,7 @@ use crate::constants::{
     BLOCKS_PER_EPOCH, EMPTY_ROOT, EPOCH_L1_BLOCKS, PHASE_BLOCK_PRODUCTION_END_PCT,
     PHASE_CHECKPOINT_END_PCT, PHASE_FINALIZATION_END_PCT,
 };
+use crate::error::EpochError;
 use crate::types::epoch_phase::EpochPhase;
 
 /// Mutable state container for the current epoch.
@@ -162,5 +163,15 @@ impl EpochInfo {
         } else {
             EpochPhase::Complete
         }
+    }
+
+    /// Serializes with bincode. Infallible for well-formed structs.
+    pub fn to_bytes(&self) -> Vec<u8> {
+        bincode::serialize(self).expect("EpochInfo serialization should never fail")
+    }
+
+    /// Deserializes from bincode bytes, returning `EpochError::InvalidData` on failure.
+    pub fn from_bytes(bytes: &[u8]) -> Result<Self, EpochError> {
+        bincode::deserialize(bytes).map_err(|e| EpochError::InvalidData(e.to_string()))
     }
 }
