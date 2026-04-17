@@ -11,9 +11,9 @@ fn zero_root() -> Bytes32 {
 }
 
 fn make_manager() -> EpochManager {
-    // genesis_l1_height=100, epoch=0
-    // 50% boundary at l1=116, 75% at l1=124, 100% at l1=132
-    EpochManager::new(100, 0, 1, zero_root())
+    // network_id=zero, genesis_l1_height=100; always starts at epoch 0.
+    // 50% boundary at l1=116, 75% at l1=124, 100% at l1=132.
+    EpochManager::new(zero_root(), 100, zero_root())
 }
 
 /// Initial phase is BlockProduction.

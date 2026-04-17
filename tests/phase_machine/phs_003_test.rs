@@ -12,7 +12,7 @@ fn zero_root() -> Bytes32 {
 }
 
 fn make_manager() -> EpochManager {
-    EpochManager::new(100, 0, 1, zero_root())
+    EpochManager::new(zero_root(), 100, zero_root())
 }
 
 /// should_advance() returns false during BlockProduction.

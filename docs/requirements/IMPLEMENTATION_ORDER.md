@@ -69,17 +69,18 @@ After completing a requirement: write tests, verify they pass, update TRACKING.y
 
 ## Phase 7: Epoch Manager
 
-- [ ] MGR-001 — EpochManager struct with interior mutability (RwLock)
-- [ ] MGR-002 — record_block(fees, tx_count)
-- [ ] MGR-003 — set_current_epoch_chain_totals(blocks, fees, txns)
-- [ ] MGR-004 — advance_epoch(l1_height, state_root)
-- [ ] MGR-005 — Query methods (get_epoch_info, get_epoch_summary, recent_summaries, total_stats)
-- [ ] MGR-006 — set_current_epoch_dfsp_close_snapshot()
-- [ ] MGR-007 — Epoch history management (summaries storage)
+- [x] MGR-001 — EpochManager struct with interior mutability (RwLock)
+- [x] MGR-002 — record_block(fees, tx_count)
+- [x] MGR-003 — set_current_epoch_chain_totals(blocks, fees, txns)
+- [x] MGR-004 — advance_epoch(l1_height, state_root)
+- [x] MGR-005 — Query methods (get_epoch_info, get_epoch_summary, recent_summaries, total_stats)
+- [x] MGR-006 — set_current_epoch_dfsp_close_snapshot()
+- [x] MGR-007 — Epoch history management (summaries storage)
+- [x] MGR-008 — Core instance methods/accessors (tracked in epoch_manager/TRACKING.yaml)
 
 ## Phase 8: Checkpoint Competition
 
-- [ ] CKP-001 — CheckpointCompetition struct and CompetitionStatus enum
+- [x] CKP-001 — CheckpointCompetition struct and CompetitionStatus enum (struct + enum only; lifecycle methods in CKP-002..005)
 - [ ] CKP-002 — start_checkpoint_competition()
 - [ ] CKP-003 — submit_checkpoint() with score comparison
 - [ ] CKP-004 — finalize_competition() and get_competition()

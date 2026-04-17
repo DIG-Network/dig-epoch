@@ -385,3 +385,53 @@ path = "tests/reward_economics/rew_006_test.rs"
 [[test]]
 name = "rew_007_test"
 path = "tests/reward_economics/rew_007_test.rs"
+
+# MGR-001: EpochManager struct — RwLock<EpochManagerInner> with network_id,
+# genesis_l1_height, current_epoch, competition, summaries, rewards.
+[[test]]
+name = "mgr_001_test"
+path = "tests/epoch_manager/mgr_001_test.rs"
+
+# MGR-002: record_block — increments blocks_produced/total_fees/total_transactions,
+# rejects outside BlockProduction with PhaseMismatch.
+[[test]]
+name = "mgr_002_test"
+path = "tests/epoch_manager/mgr_002_test.rs"
+
+# MGR-003: set_current_epoch_chain_totals — overwrites counters without phase check.
+[[test]]
+name = "mgr_003_test"
+path = "tests/epoch_manager/mgr_003_test.rs"
+
+# MGR-004: advance_epoch — archives summary, creates epoch+1, resets competition.
+[[test]]
+name = "mgr_004_test"
+path = "tests/epoch_manager/mgr_004_test.rs"
+
+# MGR-005: Query methods — get_epoch_info, get_epoch_summary, recent_summaries,
+# total_stats, get_rewards.
+[[test]]
+name = "mgr_005_test"
+path = "tests/epoch_manager/mgr_005_test.rs"
+
+# MGR-006: set_current_epoch_dfsp_close_snapshot — Finalization-phase DFSP apply.
+[[test]]
+name = "mgr_006_test"
+path = "tests/epoch_manager/mgr_006_test.rs"
+
+# MGR-007: Epoch history management — append-only ordered summaries.
+[[test]]
+name = "mgr_007_test"
+path = "tests/epoch_manager/mgr_007_test.rs"
+
+# MGR-008: Core instance methods — current_epoch, current_epoch_info, current_phase,
+# genesis_l1_height, network_id, epoch_for_l1_height, l1_range_for_epoch, store_rewards.
+[[test]]
+name = "mgr_008_test"
+path = "tests/epoch_manager/mgr_008_test.rs"
+
+# CKP-001: CheckpointCompetition struct + CompetitionStatus enum (5 variants).
+# Lifecycle methods (CKP-002..005) pending.
+[[test]]
+name = "ckp_001_test"
+path = "tests/checkpoint_competition/ckp_001_test.rs"
