@@ -88,11 +88,11 @@ After completing a requirement: write tests, verify they pass, update TRACKING.y
 
 ## Phase 9: Verification
 
-- [ ] VER-001 — compute_epoch_block_root() via chia-sdk-types::MerkleTree
-- [ ] VER-002 — epoch_block_inclusion_proof() via MerkleProof
-- [ ] VER-003 — compute_epoch_withdrawals_root() via chia-consensus::compute_merkle_set_root
-- [ ] VER-004 — EpochCheckpointData and EpochCheckpointSignMaterial
-- [ ] VER-005 — stored_checkpoint_from_epoch_sign_material_with_aggregate_v1()
+- [x] VER-001 — compute_epoch_block_root() via chia-sdk-types::MerkleTree
+- [x] VER-002 — epoch_block_inclusion_proof() via MerkleProof
+- [x] VER-003 — compute_epoch_withdrawals_root() via chia-consensus::compute_merkle_set_root
+- [x] VER-004 — EpochCheckpointData and EpochCheckpointSignMaterial
+- [x] VER-005 — stored_checkpoint_from_epoch_sign_material_with_aggregate_v1()
 
 ## Phase 10: DFSP Processing
 

@@ -5,35 +5,45 @@ items:
   - id: VER-001
     section: "7.1"
     summary: "Epoch Block Root"
-    status: gap
+    status: verified
     spec_ref: "SPEC.md#section-71"
-    tests: []
-    notes: ""
+    tests:
+      - tests/verification/ver_001_test.rs
+    completion_date: "2026-04-16"
+    notes: "compute_epoch_block_root delegates to chia-sdk-types MerkleTree; empty input returns EMPTY_ROOT. 5 tests."
   - id: VER-002
     section: "7.2"
     summary: "Block Inclusion Proof"
-    status: gap
+    status: verified
     spec_ref: "SPEC.md#section-72"
-    tests: []
-    notes: ""
+    tests:
+      - tests/verification/ver_002_test.rs
+    completion_date: "2026-04-16"
+    notes: "epoch_block_inclusion_proof + verify_block_inclusion_proof (index-based wrapper over leaf-keyed MerkleTree::proof). 8 tests."
   - id: VER-003
     section: "7.3"
     summary: "Epoch Withdrawals Root"
-    status: gap
+    status: verified
     spec_ref: "SPEC.md#section-73"
-    tests: []
-    notes: ""
+    tests:
+      - tests/verification/ver_003_test.rs
+    completion_date: "2026-04-16"
+    notes: "compute_epoch_withdrawals_root delegates to chia-consensus::compute_merkle_set_root; order-independent. 6 tests."
   - id: VER-004
     section: "7.4"
     summary: "Checkpoint Data and Sign Material"
-    status: gap
+    status: verified
     spec_ref: "SPEC.md#section-74"
-    tests: []
-    notes: ""
+    tests:
+      - tests/verification/ver_004_test.rs
+    completion_date: "2026-04-16"
+    notes: "EpochCheckpointData + EpochCheckpointSignMaterial structs; signing_digest = SHA256(network_id || epoch_le || roots); score = stake_pct * block_count. 8 tests."
   - id: VER-005
     section: "7.6"
     summary: "Aggregate Signature Construction"
-    status: gap
+    status: verified
     spec_ref: "SPEC.md#section-76"
-    tests: []
-    notes: ""
+    tests:
+      - tests/verification/ver_005_test.rs
+    completion_date: "2026-04-16"
+    notes: "Aggregates via chia_bls::aggregate; pubkey sum via PublicKey += &PublicKey. Signer bitmap derived from validator_set vs per_validator. 7 tests incl. aggregate_verify round-trip."

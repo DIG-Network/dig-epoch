@@ -454,3 +454,28 @@ path = "tests/checkpoint_competition/ckp_004_test.rs"
 [[test]]
 name = "ckp_005_test"
 path = "tests/checkpoint_competition/ckp_005_test.rs"
+
+# VER-001: compute_epoch_block_root — ordered Merkle root via chia-sdk-types.
+[[test]]
+name = "ver_001_test"
+path = "tests/verification/ver_001_test.rs"
+
+# VER-002: epoch_block_inclusion_proof — MerkleProof generation + verification.
+[[test]]
+name = "ver_002_test"
+path = "tests/verification/ver_002_test.rs"
+
+# VER-003: compute_epoch_withdrawals_root — order-independent Merkle set root.
+[[test]]
+name = "ver_003_test"
+path = "tests/verification/ver_003_test.rs"
+
+# VER-004: EpochCheckpointData + EpochCheckpointSignMaterial + sign material builder.
+[[test]]
+name = "ver_004_test"
+path = "tests/verification/ver_004_test.rs"
+
+# VER-005: stored_checkpoint_from_epoch_sign_material_with_aggregate_v1 — BLS aggregate.
+[[test]]
+name = "ver_005_test"
+path = "tests/verification/ver_005_test.rs"
