@@ -494,3 +494,19 @@ path = "tests/serialization/ser_002_test.rs"
 [[test]]
 name = "ser_003_test"
 path = "tests/serialization/ser_003_test.rs"
+
+# STR-003: Public re-exports — flat `dig_epoch::<name>` API surface.
+[[test]]
+name = "str_003_test"
+path = "tests/crate_structure/str_003_test.rs"
+
+# STR-004: EpochManager::new() constructor post-conditions.
+[[test]]
+name = "str_004_test"
+path = "tests/crate_structure/str_004_test.rs"
+
+# STR-005: Test infrastructure — test_epoch_manager, advance_through_phases,
+# mock_checkpoint_submission, build_n_block_epoch.
+[[test]]
+name = "str_005_test"
+path = "tests/crate_structure/str_005_test.rs"

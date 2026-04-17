@@ -31,21 +31,27 @@ items:
   - id: STR-003
     section: "12"
     summary: "Public Re-exports"
-    status: gap
+    status: verified
     spec_ref: "SPEC.md#section-12"
-    tests: []
-    notes: ""
+    tests:
+      - tests/crate_structure/str_003_test.rs
+    completion_date: "2026-04-16"
+    notes: "lib.rs re-exports EpochManager, all epoch/types/errors/constants/free-functions. DFSP free functions excluded (Phase 10 deferred). types/mod.rs also adds flat re-exports for the submodules' public surface. 9 tests."
   - id: STR-004
     section: "6.2"
     summary: "EpochManager Constructor"
-    status: gap
+    status: verified
     spec_ref: "SPEC.md#section-62"
-    tests: []
-    notes: ""
+    tests:
+      - tests/crate_structure/str_004_test.rs
+    completion_date: "2026-04-16"
+    notes: "EpochManager::new(network_id, genesis_l1_height, initial_state_root) starts at epoch 0 with BlockProduction phase, zero counters, empty history/rewards, fresh Pending competition. 11 tests."
   - id: STR-005
     section: "14"
     summary: "Test Infrastructure"
-    status: gap
+    status: verified
     spec_ref: "SPEC.md#section-14"
-    tests: []
-    notes: ""
+    tests:
+      - tests/crate_structure/str_005_test.rs
+    completion_date: "2026-04-16"
+    notes: "src/test_helpers.rs: test_epoch_manager, advance_through_phases, mock_checkpoint_submission, build_n_block_epoch. Exposed as pub mod at crate root for integration-test use. 6 tests incl. overflow panic."

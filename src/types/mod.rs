@@ -47,3 +47,16 @@ pub mod epoch_summary;
 pub mod events;
 pub mod reward;
 pub mod verification;
+
+// -----------------------------------------------------------------------------
+// STR-003 — flat re-exports of each submodule's public surface
+// -----------------------------------------------------------------------------
+
+pub use checkpoint_competition::{CheckpointCompetition, CompetitionStatus};
+pub use dfsp::DfspCloseSnapshot;
+pub use epoch_info::EpochInfo;
+pub use epoch_phase::{EpochPhase, PhaseTransition};
+pub use epoch_summary::EpochSummary;
+pub use events::{EpochEvent, EpochStats};
+pub use reward::RewardDistribution;
+pub use verification::{EpochBlockLink, EpochCheckpointData, EpochCheckpointSignMaterial};

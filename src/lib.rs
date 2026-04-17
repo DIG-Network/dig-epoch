@@ -123,3 +123,58 @@ pub mod dfsp;
 /// Crate-wide error enums (`EpochError`, `CheckpointCompetitionError`).
 /// Filled by the `error_types` domain (ERR-*).
 pub mod error;
+
+/// Reusable test fixtures (STR-005). Exposed as a public module so
+/// integration tests under `tests/` can use them. Not for production use —
+/// synthetic signatures and public keys do not verify cryptographically.
+pub mod test_helpers;
+
+// -----------------------------------------------------------------------------
+// STR-003 — flat public re-exports
+// -----------------------------------------------------------------------------
+//
+// Scope: every symbol reachable at `dig_epoch::<name>` corresponds to an
+// implemented requirement. DFSP processing (DFS-*) is deferred per
+// IMPLEMENTATION_ORDER.md, so its free functions are not re-exported here;
+// the `DfspCloseSnapshot` type (TYP-004) is exposed because it's referenced
+// by MGR-006 / the EpochInfo surface.
+
+// -- Manager (MGR-001, STR-004) ----------------------------------------------
+pub use manager::EpochManager;
+
+// -- Data types (TYP-*, CKP-001, REW-007, VER-004) ---------------------------
+pub use types::{
+    CheckpointCompetition, CompetitionStatus, DfspCloseSnapshot, EpochBlockLink,
+    EpochCheckpointData, EpochCheckpointSignMaterial, EpochEvent, EpochInfo, EpochPhase,
+    EpochStats, EpochSummary, PhaseTransition, RewardDistribution,
+};
+
+// -- Constants (CON-001..006) -------------------------------------------------
+pub use constants::*;
+
+// -- Height-epoch arithmetic (HEA-001..007) ----------------------------------
+pub use arithmetic::{
+    ensure_checkpoint_block_empty, epoch_checkpoint_height, epoch_for_block_height,
+    first_height_in_epoch, is_checkpoint_class_block, is_epoch_checkpoint_block,
+    is_first_block_after_epoch_checkpoint, is_genesis_checkpoint_block, l1_range_for_epoch,
+    last_committed_height_in_epoch,
+};
+
+// -- Phase machine (PHS-001) -------------------------------------------------
+pub use phase::l1_progress_phase_for_network_epoch;
+
+// -- Reward economics (REW-001..005) -----------------------------------------
+pub use rewards::{
+    block_reward_at_height, burned_fee_remainder, compute_reward_distribution,
+    epoch_reward_with_floor, proposer_fee_share, total_block_reward,
+};
+
+// -- Verification (VER-001..005) ---------------------------------------------
+pub use verification::{
+    compute_epoch_block_root, compute_epoch_withdrawals_root, epoch_block_inclusion_proof,
+    epoch_checkpoint_sign_material_from_l2_blocks,
+    stored_checkpoint_from_epoch_sign_material_with_aggregate_v1, verify_block_inclusion_proof,
+};
+
+// -- Errors (ERR-001..003) ---------------------------------------------------
+pub use error::{CheckpointCompetitionError, EpochError};
