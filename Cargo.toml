@@ -510,3 +510,9 @@ path = "tests/crate_structure/str_004_test.rs"
 [[test]]
 name = "str_005_test"
 path = "tests/crate_structure/str_005_test.rs"
+
+# End-to-end cohesion: drives a full epoch lifecycle using only the flat
+# `dig_epoch::*` public API.
+[[test]]
+name = "end_to_end_test"
+path = "tests/integration/end_to_end_test.rs"

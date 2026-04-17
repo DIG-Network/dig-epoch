@@ -7,7 +7,7 @@
 //!
 //! - [`CON-001`](../../docs/requirements/domains/constants/specs/CON-001.md)
 //!   — epoch geometry (`BLOCKS_PER_EPOCH`, `EPOCH_L1_BLOCKS`, `GENESIS_HEIGHT`)
-//!   **[LANDED]**
+//!   (landed)
 //! - [`CON-002`](../../docs/requirements/domains/constants/specs/CON-002.md)
 //!   — phase boundary thresholds (50 % / 75 % / 100 %)
 //! - [`CON-003`](../../docs/requirements/domains/constants/specs/CON-003.md)

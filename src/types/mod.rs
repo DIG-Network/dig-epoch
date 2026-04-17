@@ -13,16 +13,16 @@
 //! Each submodule corresponds to a single data-type family and has exactly
 //! one future-owner requirement family:
 //!
-//! | Submodule                  | Future owners                                   |
-//! |----------------------------|-------------------------------------------------|
-//! | [`epoch_phase`]            | TYP-001 — `EpochPhase`, `PhaseTransition`       |
-//! | [`epoch_info`]             | TYP-002 — `EpochInfo`                           |
-//! | [`epoch_summary`]          | TYP-003 — `EpochSummary`                        |
-//! | [`dfsp`]                   | TYP-004 — 7 DFSP types (SPEC §3.14)             |
-//! | [`events`]                 | TYP-005 — `EpochEvent`, `EpochStats`            |
-//! | [`checkpoint_competition`] | CKP-001 — `CheckpointCompetition`, status enum  |
-//! | [`reward`]                 | REW-004 — `RewardDistribution`                  |
-//! | [`verification`]           | TYP-006 — `EpochBlockLink`, `EpochCheckpointData` |
+//! | Submodule                                        | Future owners                                     |
+//! |--------------------------------------------------|---------------------------------------------------|
+//! | [`crate::types::epoch_phase`]                    | TYP-001 — `EpochPhase`, `PhaseTransition`         |
+//! | [`crate::types::epoch_info`]                     | TYP-002 — `EpochInfo`                             |
+//! | [`crate::types::epoch_summary`]                  | TYP-003 — `EpochSummary`                          |
+//! | [`crate::types::dfsp`]                           | TYP-004 — DFSP types (SPEC §3.14)                 |
+//! | [`crate::types::events`]                         | TYP-005 — `EpochEvent`, `EpochStats`              |
+//! | [`crate::types::checkpoint_competition`]         | CKP-001 — `CheckpointCompetition`, status enum    |
+//! | [`crate::types::reward`]                         | REW-004 — `RewardDistribution`                    |
+//! | [`crate::types::verification`]                   | TYP-006 — `EpochBlockLink`, `EpochCheckpointData` |
 //!
 //! ## Re-export policy
 //!

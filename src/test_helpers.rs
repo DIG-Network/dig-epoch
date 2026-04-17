@@ -5,7 +5,7 @@
 //! public module so integration tests under `tests/` can use them.
 //!
 //! **Not for production use.** Signatures and public keys produced by
-//! [`mock_checkpoint_submission`] are synthetic defaults and do not verify.
+//! `mock_checkpoint_submission` are synthetic defaults and do not verify.
 //!
 //! **Spec reference:** [`SPEC.md` §14](../../docs/resources/SPEC.md) / STR-005.
 

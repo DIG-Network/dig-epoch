@@ -178,3 +178,11 @@ pub use verification::{
 
 // -- Errors (ERR-001..003) ---------------------------------------------------
 pub use error::{CheckpointCompetitionError, EpochError};
+
+// -- Ecosystem types used in public signatures -------------------------------
+//
+// Re-exported so consumers have a single-crate import surface. Start.md
+// Hard Requirement 1 forbids redefining these — we re-export the canonical
+// items from their owning crates instead.
+pub use chia_protocol::Bytes32;
+pub use dig_block::{Checkpoint, CheckpointSubmission};
