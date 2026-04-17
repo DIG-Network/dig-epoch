@@ -351,36 +351,102 @@ impl EpochManager {
     }
 
     // -------------------------------------------------------------------------
-    // PHS-004 phase-gate stubs (superseded by CKP-003/004 in Phase 8)
+    // CKP-002 — start_checkpoint_competition
     // -------------------------------------------------------------------------
 
-    /// **Phase-check stub** for PHS-004.
+    /// Transitions the current competition from `Pending` to `Collecting`.
     ///
-    /// Returns `Err(PhaseMismatch)` if not in `Checkpoint`. CKP-003 will
-    /// extend this into the full submission-accepting method.
-    pub fn submit_checkpoint(&self) -> Result<(), EpochError> {
-        let inner = self.inner.read();
+    /// Phase-gated to `Checkpoint`. Delegates to
+    /// [`CheckpointCompetition::start`] for the state transition.
+    pub fn start_checkpoint_competition(&self) -> Result<(), EpochError> {
+        let mut inner = self.inner.write();
         if inner.current_epoch.phase != EpochPhase::Checkpoint {
             return Err(EpochError::PhaseMismatch {
                 expected: EpochPhase::Checkpoint,
                 got: inner.current_epoch.phase,
             });
         }
+        inner.competition.start()?;
         Ok(())
     }
 
-    /// **Phase-check stub** for PHS-004.
+    // -------------------------------------------------------------------------
+    // CKP-003 — submit_checkpoint
+    // -------------------------------------------------------------------------
+
+    /// Records a checkpoint submission against the current epoch's competition.
     ///
-    /// Returns `Err(PhaseMismatch)` if not in `Finalization`. CKP-004 will
-    /// extend this into the full winner-selection method.
-    pub fn finalize_competition(&self) -> Result<(), EpochError> {
-        let inner = self.inner.read();
+    /// Phase-gated to `Checkpoint`. Returns `Ok(true)` when the submission
+    /// becomes the new leader, `Ok(false)` is never returned (non-leading
+    /// submissions return `Err(ScoreNotHigher)`). Delegates scoring to
+    /// [`CheckpointCompetition::submit`].
+    pub fn submit_checkpoint(
+        &self,
+        submission: dig_block::CheckpointSubmission,
+    ) -> Result<bool, EpochError> {
+        let mut inner = self.inner.write();
+        if inner.current_epoch.phase != EpochPhase::Checkpoint {
+            return Err(EpochError::PhaseMismatch {
+                expected: EpochPhase::Checkpoint,
+                got: inner.current_epoch.phase,
+            });
+        }
+        Ok(inner.competition.submit(submission)?)
+    }
+
+    // -------------------------------------------------------------------------
+    // CKP-004 — finalize_competition / get_competition
+    // -------------------------------------------------------------------------
+
+    /// Finalizes the competition for `epoch` at `l1_height`, transitioning
+    /// status to `Finalized` and setting the winning checkpoint on the
+    /// current [`EpochInfo`].
+    ///
+    /// Phase-gated to `Finalization` when `epoch` matches the current epoch.
+    /// Returns the winning checkpoint on success, or `Ok(None)` if no winner
+    /// was selected.
+    pub fn finalize_competition(
+        &self,
+        epoch: u64,
+        l1_height: u32,
+    ) -> Result<Option<dig_block::Checkpoint>, EpochError> {
+        let mut inner = self.inner.write();
         if inner.current_epoch.phase != EpochPhase::Finalization {
             return Err(EpochError::PhaseMismatch {
                 expected: EpochPhase::Finalization,
                 got: inner.current_epoch.phase,
             });
         }
-        Ok(())
+        if inner.competition.epoch != epoch {
+            return Err(EpochError::EpochMismatch {
+                expected: inner.competition.epoch,
+                got: epoch,
+            });
+        }
+        // No winner: transition to Failed and return None.
+        if inner.competition.current_winner.is_none() {
+            inner.competition.fail()?;
+            return Ok(None);
+        }
+        inner.competition.finalize(l1_height)?;
+        let winner_idx = inner.competition.current_winner.unwrap();
+        let winning_checkpoint = inner.competition.submissions[winner_idx].checkpoint.clone();
+        inner
+            .current_epoch
+            .set_checkpoint(winning_checkpoint.clone());
+        Ok(Some(winning_checkpoint))
+    }
+
+    /// Returns a clone of the competition for `epoch`.
+    ///
+    /// Only the current epoch's competition is tracked; returns `None` for
+    /// past or future epochs.
+    pub fn get_competition(&self, epoch: u64) -> Option<CheckpointCompetition> {
+        let inner = self.inner.read();
+        if inner.competition.epoch == epoch {
+            Some(inner.competition.clone())
+        } else {
+            None
+        }
     }
 }

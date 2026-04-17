@@ -80,11 +80,11 @@ After completing a requirement: write tests, verify they pass, update TRACKING.y
 
 ## Phase 8: Checkpoint Competition
 
-- [x] CKP-001 — CheckpointCompetition struct and CompetitionStatus enum (struct + enum only; lifecycle methods in CKP-002..005)
-- [ ] CKP-002 — start_checkpoint_competition()
-- [ ] CKP-003 — submit_checkpoint() with score comparison
-- [ ] CKP-004 — finalize_competition() and get_competition()
-- [ ] CKP-005 — Competition lifecycle (Pending → Collecting → WinnerSelected → Finalized/Failed)
+- [x] CKP-001 — CheckpointCompetition struct and CompetitionStatus enum
+- [x] CKP-002 — start_checkpoint_competition()
+- [x] CKP-003 — submit_checkpoint() with score comparison
+- [x] CKP-004 — finalize_competition() and get_competition()
+- [x] CKP-005 — Competition lifecycle (Pending → Collecting → WinnerSelected → Finalized/Failed)
 
 ## Phase 9: Verification
 

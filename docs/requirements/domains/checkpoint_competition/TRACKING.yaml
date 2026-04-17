@@ -14,28 +14,36 @@ items:
   - id: CKP-002
     section: "6.5"
     summary: "start_checkpoint_competition"
-    status: gap
+    status: verified
     spec_ref: "SPEC.md#section-65"
-    tests: []
-    notes: ""
+    tests:
+      - tests/checkpoint_competition/ckp_002_test.rs
+    completion_date: "2026-04-16"
+    notes: "EpochManager wrapper + struct-level CheckpointCompetition::start(). Checkpoint-phase gated; rejects all non-Pending statuses. 7 tests."
   - id: CKP-003
     section: "6.5"
     summary: "submit_checkpoint with Score"
-    status: gap
+    status: verified
     spec_ref: "SPEC.md#section-65"
-    tests: []
-    notes: ""
+    tests:
+      - tests/checkpoint_competition/ckp_003_test.rs
+    completion_date: "2026-04-16"
+    notes: "Score compared via submission.score. Always appends to submissions vec. Returns ScoreNotHigher for equal/lower; EpochMismatch for wrong epoch. 7 tests."
   - id: CKP-004
     section: "6.5"
     summary: "finalize_competition"
-    status: gap
+    status: verified
     spec_ref: "SPEC.md#section-65"
-    tests: []
-    notes: ""
+    tests:
+      - tests/checkpoint_competition/ckp_004_test.rs
+    completion_date: "2026-04-16"
+    notes: "WinnerSelected → Finalized; sets checkpoint on EpochInfo. No-winner case transitions to Failed and returns None. get_competition delegates. 9 tests."
   - id: CKP-005
     section: "3.10"
     summary: "Competition Lifecycle"
-    status: gap
+    status: verified
     spec_ref: "SPEC.md#section-310"
-    tests: []
-    notes: ""
+    tests:
+      - tests/checkpoint_competition/ckp_005_test.rs
+    completion_date: "2026-04-16"
+    notes: "Full happy path + Failed branches + terminal-state enforcement + invalid-transition rejection. 9 tests."

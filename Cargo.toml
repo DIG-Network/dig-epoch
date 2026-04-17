@@ -431,7 +431,26 @@ name = "mgr_008_test"
 path = "tests/epoch_manager/mgr_008_test.rs"
 
 # CKP-001: CheckpointCompetition struct + CompetitionStatus enum (5 variants).
-# Lifecycle methods (CKP-002..005) pending.
 [[test]]
 name = "ckp_001_test"
 path = "tests/checkpoint_competition/ckp_001_test.rs"
+
+# CKP-002: start_checkpoint_competition — Pending → Collecting; Checkpoint-phase gate.
+[[test]]
+name = "ckp_002_test"
+path = "tests/checkpoint_competition/ckp_002_test.rs"
+
+# CKP-003: submit_checkpoint — score-based leader selection + rejection rules.
+[[test]]
+name = "ckp_003_test"
+path = "tests/checkpoint_competition/ckp_003_test.rs"
+
+# CKP-004: finalize_competition + get_competition — WinnerSelected → Finalized.
+[[test]]
+name = "ckp_004_test"
+path = "tests/checkpoint_competition/ckp_004_test.rs"
+
+# CKP-005: Competition lifecycle state machine — full + invalid transitions.
+[[test]]
+name = "ckp_005_test"
+path = "tests/checkpoint_competition/ckp_005_test.rs"

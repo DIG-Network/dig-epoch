@@ -18,6 +18,8 @@ pub const STR_002_MODULE_PRESENT: () = ();
 use chia_protocol::Bytes32;
 use dig_block::CheckpointSubmission;
 
+use crate::error::CheckpointCompetitionError;
+
 // -----------------------------------------------------------------------------
 // CKP-001 — CompetitionStatus
 // -----------------------------------------------------------------------------
@@ -82,5 +84,125 @@ impl CheckpointCompetition {
     /// True when the competition has reached the `Finalized` variant.
     pub fn is_finalized(&self) -> bool {
         matches!(self.status, CompetitionStatus::Finalized { .. })
+    }
+
+    // -------------------------------------------------------------------------
+    // CKP-002 — start
+    // -------------------------------------------------------------------------
+
+    /// Transitions `Pending` → `Collecting`.
+    ///
+    /// Returns `Err(NotStarted)` if already past `Pending`.
+    /// (Reusing `NotStarted` as the generic "wrong-lifecycle-state" error;
+    /// specific variants may be refined in later tightening.)
+    pub fn start(&mut self) -> Result<(), CheckpointCompetitionError> {
+        if self.status != CompetitionStatus::Pending {
+            return Err(CheckpointCompetitionError::AlreadyFinalized);
+        }
+        self.status = CompetitionStatus::Collecting;
+        Ok(())
+    }
+
+    // -------------------------------------------------------------------------
+    // CKP-003 — submit
+    // -------------------------------------------------------------------------
+
+    /// Records a checkpoint submission and, if its score beats the current leader,
+    /// transitions status to `WinnerSelected` (or updates the existing one).
+    ///
+    /// Returns `true` when the submission became the new leader.
+    ///
+    /// Errors:
+    /// - `NotStarted`            — status is `Pending`
+    /// - `AlreadyFinalized`      — status is `Finalized` / `Failed`
+    /// - `EpochMismatch`         — `submission.epoch` != `self.epoch`
+    /// - `ScoreNotHigher`        — score does not exceed current leader
+    pub fn submit(
+        &mut self,
+        submission: CheckpointSubmission,
+    ) -> Result<bool, CheckpointCompetitionError> {
+        match self.status {
+            CompetitionStatus::Pending => {
+                return Err(CheckpointCompetitionError::NotStarted);
+            }
+            CompetitionStatus::Finalized { .. } | CompetitionStatus::Failed => {
+                return Err(CheckpointCompetitionError::AlreadyFinalized);
+            }
+            CompetitionStatus::Collecting | CompetitionStatus::WinnerSelected { .. } => {}
+        }
+        if submission.checkpoint.epoch != self.epoch {
+            return Err(CheckpointCompetitionError::EpochMismatch {
+                expected: self.epoch,
+                got: submission.checkpoint.epoch,
+            });
+        }
+        let new_score = submission.score;
+        let current_score = match &self.status {
+            CompetitionStatus::WinnerSelected { winner_score, .. } => *winner_score,
+            _ => 0,
+        };
+        // Always record the submission for auditability.
+        self.submissions.push(submission);
+        let idx = self.submissions.len() - 1;
+        let is_new_leader = match &self.status {
+            CompetitionStatus::WinnerSelected { .. } => new_score > current_score,
+            _ => new_score > 0,
+        };
+        if is_new_leader {
+            let winner_hash = self.submissions[idx].checkpoint.hash();
+            self.status = CompetitionStatus::WinnerSelected {
+                winner_hash,
+                winner_score: new_score,
+            };
+            self.current_winner = Some(idx);
+            Ok(true)
+        } else {
+            Err(CheckpointCompetitionError::ScoreNotHigher {
+                current: current_score,
+                submitted: new_score,
+            })
+        }
+    }
+
+    // -------------------------------------------------------------------------
+    // CKP-004 — finalize
+    // -------------------------------------------------------------------------
+
+    /// Transitions `WinnerSelected` → `Finalized { winner_hash, l1_height }`.
+    ///
+    /// Returns the winning checkpoint hash.
+    pub fn finalize(&mut self, l1_height: u32) -> Result<Bytes32, CheckpointCompetitionError> {
+        let winner_hash = match self.status {
+            CompetitionStatus::WinnerSelected { winner_hash, .. } => winner_hash,
+            CompetitionStatus::Finalized { .. } => {
+                return Err(CheckpointCompetitionError::AlreadyFinalized);
+            }
+            _ => return Err(CheckpointCompetitionError::NotStarted),
+        };
+        self.status = CompetitionStatus::Finalized {
+            winner_hash,
+            l1_height,
+        };
+        Ok(winner_hash)
+    }
+
+    /// Transitions to `Failed` (terminal). Legal from `Collecting` or
+    /// `WinnerSelected`.
+    pub fn fail(&mut self) -> Result<(), CheckpointCompetitionError> {
+        match self.status {
+            CompetitionStatus::Collecting | CompetitionStatus::WinnerSelected { .. } => {
+                self.status = CompetitionStatus::Failed;
+                Ok(())
+            }
+            CompetitionStatus::Finalized { .. } | CompetitionStatus::Failed => {
+                Err(CheckpointCompetitionError::AlreadyFinalized)
+            }
+            CompetitionStatus::Pending => Err(CheckpointCompetitionError::NotStarted),
+        }
+    }
+
+    /// Returns the winning checkpoint submission, if one has been selected.
+    pub fn winner(&self) -> Option<&CheckpointSubmission> {
+        self.current_winner.and_then(|i| self.submissions.get(i))
     }
 }
