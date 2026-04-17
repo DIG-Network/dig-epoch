@@ -40,20 +40,19 @@ fn test_phase_boundary_types_are_u32() {
 }
 
 /// Boundaries are strictly ascending: BlockProduction < Checkpoint < Finalization.
+/// Enforced at compile time via `const _: () = assert!(...)`.
+const _: () = assert!(PHASE_BLOCK_PRODUCTION_END_PCT < PHASE_CHECKPOINT_END_PCT);
+const _: () = assert!(PHASE_CHECKPOINT_END_PCT < PHASE_FINALIZATION_END_PCT);
+
 #[test]
 fn test_phase_boundaries_ascending() {
-    assert!(
-        PHASE_BLOCK_PRODUCTION_END_PCT < PHASE_CHECKPOINT_END_PCT,
-        "BlockProduction end ({}) must be < Checkpoint end ({})",
-        PHASE_BLOCK_PRODUCTION_END_PCT,
-        PHASE_CHECKPOINT_END_PCT,
-    );
-    assert!(
-        PHASE_CHECKPOINT_END_PCT < PHASE_FINALIZATION_END_PCT,
-        "Checkpoint end ({}) must be < Finalization end ({})",
-        PHASE_CHECKPOINT_END_PCT,
-        PHASE_FINALIZATION_END_PCT,
-    );
+    // Materialize the constants into non-const locals so the runtime
+    // assertion isn't flagged as `clippy::assertions_on_constants`.
+    let bp = PHASE_BLOCK_PRODUCTION_END_PCT;
+    let ck = PHASE_CHECKPOINT_END_PCT;
+    let fn_end = PHASE_FINALIZATION_END_PCT;
+    assert!(bp < ck);
+    assert!(ck < fn_end);
 }
 
 /// Finalization boundary equals 100 — the phase window is closed at full completion.

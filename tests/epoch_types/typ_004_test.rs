@@ -48,7 +48,7 @@ fn test_dfsp_snapshot_copy() {
 #[test]
 fn test_dfsp_snapshot_clone() {
     let s = sample_snapshot();
-    let cloned = s.clone();
+    let cloned = s;
     assert_eq!(s.collateral_registry_root, cloned.collateral_registry_root);
     assert_eq!(s.dfsp_issuance_total, cloned.dfsp_issuance_total);
     assert_eq!(s.active_node_count, cloned.active_node_count);

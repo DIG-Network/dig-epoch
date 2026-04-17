@@ -39,7 +39,7 @@ fn test_single_signer() {
     let k0 = sk(1);
     let pk0 = k0.public_key();
     let s0: Signature = sign(&k0, mat.signing_digest.as_ref());
-    let validator_set = vec![(0u32, pk0.clone())];
+    let validator_set = vec![(0u32, pk0)];
     let per_validator = vec![(0u32, pk0, s0)];
     let sub = stored_checkpoint_from_epoch_sign_material_with_aggregate_v1(
         &mat,
@@ -66,7 +66,7 @@ fn test_multiple_signers_aggregate_verifies() {
     let s0: Signature = sign(&k0, mat.signing_digest.as_ref());
     let s1: Signature = sign(&k1, mat.signing_digest.as_ref());
     let s2: Signature = sign(&k2, mat.signing_digest.as_ref());
-    let validator_set = vec![(0, pk0.clone()), (1, pk1.clone()), (2, pk2.clone())];
+    let validator_set = vec![(0, pk0), (1, pk1), (2, pk2)];
     let per_validator = vec![(0, pk0, s0), (1, pk1, s1), (2, pk2, s2)];
     let sub = stored_checkpoint_from_epoch_sign_material_with_aggregate_v1(
         &mat,
@@ -76,7 +76,7 @@ fn test_multiple_signers_aggregate_verifies() {
     )
     .unwrap();
     // Aggregate verification via chia-bls::aggregate_verify on the single message.
-    let pks: Vec<_> = per_validator.iter().map(|(_, pk, _)| pk.clone()).collect();
+    let pks: Vec<_> = per_validator.iter().map(|(_, pk, _)| *pk).collect();
     let pk_refs: Vec<&chia_bls::PublicKey> = pks.iter().collect();
     let msgs: Vec<&[u8]> = vec![mat.signing_digest.as_ref(); 3];
     assert!(chia_bls::aggregate_verify(
@@ -93,7 +93,7 @@ fn test_score_preserved() {
     let sig = sign(&k, mat.signing_digest.as_ref());
     let sub = stored_checkpoint_from_epoch_sign_material_with_aggregate_v1(
         &mat,
-        &[(0, pk.clone())],
+        &[(0, pk)],
         &[(0, pk, sig)],
         0,
     )
@@ -109,7 +109,7 @@ fn test_submitter_stored() {
     let sig = sign(&k, mat.signing_digest.as_ref());
     let sub = stored_checkpoint_from_epoch_sign_material_with_aggregate_v1(
         &mat,
-        &[(0, pk.clone())],
+        &[(0, pk)],
         &[(0, pk, sig)],
         42,
     )
@@ -125,7 +125,7 @@ fn test_submission_is_none() {
     let sig = sign(&k, mat.signing_digest.as_ref());
     let sub = stored_checkpoint_from_epoch_sign_material_with_aggregate_v1(
         &mat,
-        &[(0, pk.clone())],
+        &[(0, pk)],
         &[(0, pk, sig)],
         0,
     )
@@ -161,7 +161,7 @@ fn test_bitmap_reflects_signers() {
     let pk2 = k2.public_key();
     let s1 = sign(&k1, mat.signing_digest.as_ref());
     // Validator set has 3 validators but only validator 1 signs.
-    let validator_set = vec![(10, pk0), (11, pk1.clone()), (12, pk2)];
+    let validator_set = vec![(10, pk0), (11, pk1), (12, pk2)];
     let per_validator = vec![(11, pk1, s1)];
     let sub = stored_checkpoint_from_epoch_sign_material_with_aggregate_v1(
         &mat,

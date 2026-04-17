@@ -10,7 +10,7 @@ use dig_epoch::rewards::epoch_reward_with_floor;
 /// At tail emission, raw=32*0.02L2=0.64L2 → raised to MINIMUM_EPOCH_REWARD.
 #[test]
 fn test_floor_at_tail() {
-    let raw_tail_epoch = BLOCKS_PER_EPOCH as u64 * TAIL_BLOCK_REWARD;
+    let raw_tail_epoch = BLOCKS_PER_EPOCH * TAIL_BLOCK_REWARD;
     assert!(raw_tail_epoch < MINIMUM_EPOCH_REWARD);
     assert_eq!(
         epoch_reward_with_floor(raw_tail_epoch),
@@ -56,7 +56,7 @@ fn test_minimum_epoch_reward_value() {
 /// 32 * TAIL_BLOCK_REWARD equals 0.64 L2 in mojos.
 #[test]
 fn test_tail_epoch_computation() {
-    let tail_per_epoch = BLOCKS_PER_EPOCH as u64 * TAIL_BLOCK_REWARD;
+    let tail_per_epoch = BLOCKS_PER_EPOCH * TAIL_BLOCK_REWARD;
     // 0.64 L2 = 64 * MOJOS_PER_L2 / 100
     assert_eq!(tail_per_epoch, 64 * MOJOS_PER_L2 / 100);
 }

@@ -53,7 +53,7 @@ fn test_reward_at_third_halving() {
 #[test]
 fn test_reward_at_tail() {
     assert_eq!(
-        block_reward_at_height(HALVINGS_BEFORE_TAIL as u64 * HALVING_INTERVAL_BLOCKS + 1),
+        block_reward_at_height(HALVINGS_BEFORE_TAIL * HALVING_INTERVAL_BLOCKS + 1),
         TAIL_BLOCK_REWARD
     );
 }

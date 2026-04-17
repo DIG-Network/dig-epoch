@@ -23,7 +23,7 @@ fn test_epoch_phase_clone_copy() {
         EpochPhase::Finalization,
         EpochPhase::Complete,
     ] {
-        let cloned = phase.clone();
+        let cloned = phase;
         let copied = phase;
         assert_eq!(phase, cloned);
         assert_eq!(phase, copied);

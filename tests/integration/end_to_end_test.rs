@@ -104,7 +104,7 @@ fn test_full_epoch_lifecycle_via_public_api() {
     assert!(m.should_advance(133));
 
     // Reward distribution derived from protocol rules.
-    let base_reward: u64 = (1..=(BLOCKS_PER_EPOCH as u64))
+    let base_reward: u64 = (1..=BLOCKS_PER_EPOCH)
         .map(|h| total_block_reward(h, h == 1))
         .sum();
     let total_reward = epoch_reward_with_floor(base_reward);

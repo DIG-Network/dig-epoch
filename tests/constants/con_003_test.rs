@@ -74,14 +74,15 @@ fn test_initial_epoch_reward() {
 }
 
 /// TAIL_BLOCK_REWARD < INITIAL_BLOCK_REWARD.
+/// Enforced at compile time via `const _: () = assert!(...)`.
+const _: () = assert!(TAIL_BLOCK_REWARD < INITIAL_BLOCK_REWARD);
+
 #[test]
 fn test_tail_less_than_initial() {
-    assert!(
-        TAIL_BLOCK_REWARD < INITIAL_BLOCK_REWARD,
-        "tail reward ({}) must be less than initial reward ({})",
-        TAIL_BLOCK_REWARD,
-        INITIAL_BLOCK_REWARD,
-    );
+    // Materialize constants to avoid `clippy::assertions_on_constants`.
+    let tail = TAIL_BLOCK_REWARD;
+    let initial = INITIAL_BLOCK_REWARD;
+    assert!(tail < initial);
 }
 
 /// HALVING_INTERVAL_BLOCKS is 94_608_000.
