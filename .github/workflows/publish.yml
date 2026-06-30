@@ -39,6 +39,17 @@ jobs:
       - name: Run tests
         run: cargo test --all-features -- --test-threads=1
 
+      - name: Install cargo-llvm-cov
+        uses: taiki-e/install-action@cargo-llvm-cov
+
+      # Coverage gate: the suite must keep line coverage at or above 80%.
+      # Tests share RwLock-protected EpochManager state, so they MUST run
+      # single-threaded (--test-threads=1) — the same flag the plain test
+      # step uses. `--fail-under-lines 80` makes CI fail if coverage regresses
+      # below the floor. The crate currently measures ~99.9% lines.
+      - name: Coverage (>=80% lines)
+        run: cargo llvm-cov --all-features --summary-only --fail-under-lines 80 -- --test-threads=1
+
       - name: Check documentation
         run: cargo doc --no-deps --all-features
 
