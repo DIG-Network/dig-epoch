@@ -154,7 +154,9 @@ fn test_winner_accessor() {
     c.start().unwrap();
     assert!(c.winner().is_none()); // Collecting, still empty
     c.submit(submission(0, 100)).unwrap();
-    let w = c.winner().expect("a leader exists after a positive-score submit");
+    let w = c
+        .winner()
+        .expect("a leader exists after a positive-score submit");
     assert_eq!(w.score, 100);
     // A higher submission moves the winner pointer.
     c.submit(submission(0, 250)).unwrap();
