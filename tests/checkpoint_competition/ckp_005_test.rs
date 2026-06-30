@@ -133,3 +133,30 @@ fn test_invalid_collecting_to_finalized() {
     assert!(c.finalize(100).is_err());
     assert_eq!(c.status, CompetitionStatus::Collecting);
 }
+
+/// Invalid: fail() from Pending (never started) → NotStarted, status unchanged.
+#[test]
+fn test_fail_from_pending() {
+    let mut c = CheckpointCompetition::new(0);
+    let err = c.fail().unwrap_err();
+    assert!(matches!(
+        err,
+        dig_epoch::error::CheckpointCompetitionError::NotStarted
+    ));
+    assert_eq!(c.status, CompetitionStatus::Pending);
+}
+
+/// winner() is None until a submission leads, then borrows the leading entry.
+#[test]
+fn test_winner_accessor() {
+    let mut c = CheckpointCompetition::new(0);
+    assert!(c.winner().is_none()); // Pending: no winner
+    c.start().unwrap();
+    assert!(c.winner().is_none()); // Collecting, still empty
+    c.submit(submission(0, 100)).unwrap();
+    let w = c.winner().expect("a leader exists after a positive-score submit");
+    assert_eq!(w.score, 100);
+    // A higher submission moves the winner pointer.
+    c.submit(submission(0, 250)).unwrap();
+    assert_eq!(c.winner().unwrap().score, 250);
+}

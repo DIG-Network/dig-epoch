@@ -113,6 +113,48 @@ fn test_total_stats_aggregation() {
     assert_eq!(s.total_transactions, 6);
 }
 
+/// total_stats counts the *current* (not-yet-archived) epoch as finalized once
+/// its winning checkpoint has been recorded via finalize_competition. This
+/// exercises the `cur.is_finalized()` branch of total_stats, which is distinct
+/// from the archived-summary `s.finalized` branch.
+#[test]
+fn test_total_stats_counts_finalized_current_epoch() {
+    use dig_block::{Checkpoint, CheckpointSubmission, PublicKey, Signature, SignerBitmap};
+
+    let m = EpochManager::new(nid(), 100, root(0));
+    m.record_block(10, 1).unwrap();
+
+    // Drive into Checkpoint phase and run a one-submission competition.
+    m.update_phase(116); // 50% of the 32-block L1 window → Checkpoint
+    assert_eq!(m.current_phase(), EpochPhase::Checkpoint);
+    m.start_checkpoint_competition().unwrap();
+    let mut cp = Checkpoint::new();
+    cp.epoch = 0;
+    cp.block_count = 1;
+    cp.state_root = root(0xCC);
+    let sub = CheckpointSubmission::new(
+        cp,
+        SignerBitmap::new(0),
+        Signature::default(),
+        PublicKey::default(),
+        100,
+        0,
+    );
+    assert!(m.submit_checkpoint(sub).unwrap());
+
+    // Advance to Finalization and finalize — this records the winning checkpoint
+    // on the CURRENT EpochInfo, so is_finalized() becomes true without advancing.
+    m.update_phase(124); // 75% → Finalization
+    assert_eq!(m.current_phase(), EpochPhase::Finalization);
+    let winner = m.finalize_competition(0, 124).unwrap();
+    assert!(winner.is_some());
+
+    let s = m.total_stats();
+    // No archived summaries yet; only the current epoch, which is now finalized.
+    assert_eq!(s.total_epochs, 1);
+    assert_eq!(s.finalized_epochs, 1);
+}
+
 /// get_rewards returns None for unknown epoch and Some after store_rewards.
 #[test]
 fn test_get_rewards_roundtrip() {

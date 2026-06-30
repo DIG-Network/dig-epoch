@@ -8,6 +8,7 @@ use dig_block::{PublicKey, Signature};
 use dig_epoch::error::{CheckpointCompetitionError, EpochError};
 use dig_epoch::manager::EpochManager;
 use dig_epoch::types::checkpoint_competition::{CheckpointCompetition, CompetitionStatus};
+use dig_epoch::types::epoch_phase::EpochPhase;
 
 fn nid() -> Bytes32 {
     Bytes32::new([0u8; 32])
@@ -127,6 +128,24 @@ fn test_submit_while_pending() {
     assert!(matches!(
         err,
         EpochError::Competition(CheckpointCompetitionError::NotStarted)
+    ));
+}
+
+/// submit_checkpoint outside the `Checkpoint` phase is rejected with
+/// `PhaseMismatch` before the competition is ever consulted. Forces the
+/// current epoch into `Finalization` (a non-Checkpoint phase) so the phase
+/// gate fires regardless of competition state.
+#[test]
+fn test_submit_outside_checkpoint_phase() {
+    let m = EpochManager::new(nid(), 100, nid());
+    m.__force_phase_for_test(EpochPhase::Finalization);
+    let err = m.submit_checkpoint(make_submission(0, 100, 2)).unwrap_err();
+    assert!(matches!(
+        err,
+        EpochError::PhaseMismatch {
+            expected: EpochPhase::Checkpoint,
+            got: EpochPhase::Finalization,
+        }
     ));
 }
 
