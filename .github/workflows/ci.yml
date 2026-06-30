@@ -1,0 +1,54 @@
+name: CI
+
+# Runs on every push to main and every pull request so the test suite and
+# the >=80% line-coverage gate guard ordinary development — not just tag
+# publishes (which publish.yml handles). fmt + clippy + tests + coverage all
+# block a merge below the floor.
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  test:
+    name: Test Suite + Coverage Gate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: stable
+          components: rustfmt, clippy
+
+      - name: Cache dependencies
+        uses: Swatinem/rust-cache@v2
+
+      - name: Check formatting
+        run: cargo fmt --all -- --check
+
+      - name: Check clippy
+        run: cargo clippy --all-targets --all-features -- -D warnings
+
+      - name: Run tests
+        run: cargo test --all-features -- --test-threads=1
+
+      - name: Install cargo-llvm-cov
+        uses: taiki-e/install-action@cargo-llvm-cov
+
+      # Coverage gate: line coverage must stay at or above 80%. Tests share
+      # RwLock-protected EpochManager state, so they MUST run single-threaded
+      # (--test-threads=1). `--fail-under-lines 80` fails the build on a
+      # regression below the floor. The crate currently measures ~99.9% lines.
+      - name: Coverage (>=80% lines)
+        run: cargo llvm-cov --all-features --summary-only --fail-under-lines 80 -- --test-threads=1
+
+      - name: Check documentation
+        run: cargo doc --no-deps --all-features
