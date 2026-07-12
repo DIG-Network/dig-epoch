@@ -37,18 +37,25 @@ jobs:
       - name: Check clippy
         run: cargo clippy --all-targets --all-features -- -D warnings
 
-      - name: Run tests
-        run: cargo test --all-features -- --test-threads=1
+      - name: Install cargo-nextest
+        uses: taiki-e/install-action@nextest
+
+      # nextest natively detects+reports flaky tests (failed-then-passed on
+      # retry shows as "FLAKY" in the run summary instead of silently passing
+      # or hard-failing on a one-off). Tests share RwLock-protected
+      # EpochManager state, so they MUST run single-threaded (--test-threads=1).
+      - name: Run tests (nextest, flaky-aware)
+        run: cargo nextest run --all-features --retries 2 --test-threads=1
 
       - name: Install cargo-llvm-cov
         uses: taiki-e/install-action@cargo-llvm-cov
 
-      # Coverage gate: line coverage must stay at or above 80%. Tests share
-      # RwLock-protected EpochManager state, so they MUST run single-threaded
-      # (--test-threads=1). `--fail-under-lines 80` fails the build on a
-      # regression below the floor. The crate currently measures ~99.9% lines.
+      # Coverage gate: line coverage must stay at or above 80%. `--fail-under-lines 80`
+      # fails the build on a regression below the floor. The crate currently
+      # measures ~99.9% lines. Uses the nextest runner so retried-flaky tests
+      # are reported the same way as the plain test step above.
       - name: Coverage (>=80% lines)
-        run: cargo llvm-cov --all-features --summary-only --fail-under-lines 80 -- --test-threads=1
+        run: cargo llvm-cov nextest --all-features --summary-only --fail-under-lines 80 -- --retries 2 --test-threads=1
 
       - name: Check documentation
         run: cargo doc --no-deps --all-features
