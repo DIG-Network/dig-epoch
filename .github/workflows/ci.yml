@@ -53,9 +53,12 @@ jobs:
       # Coverage gate: line coverage must stay at or above 80%. `--fail-under-lines 80`
       # fails the build on a regression below the floor. The crate currently
       # measures ~99.9% lines. Uses the nextest runner so retried-flaky tests
-      # are reported the same way as the plain test step above.
+      # are reported the same way as the plain test step above. --retries/--test-threads
+      # are `cargo nextest run` options, not test-binary args, so they MUST come
+      # BEFORE the `--` separator (args after `--` go to the test binary itself and
+      # nextest rejects `--retries`/`--test-threads` there with "arguments are unsupported").
       - name: Coverage (>=80% lines)
-        run: cargo llvm-cov nextest --all-features --summary-only --fail-under-lines 80 -- --retries 2 --test-threads=1
+        run: cargo llvm-cov nextest --all-features --retries 2 --test-threads=1 --summary-only --fail-under-lines 80
 
       - name: Check documentation
         run: cargo doc --no-deps --all-features
