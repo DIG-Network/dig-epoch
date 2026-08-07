@@ -73,16 +73,16 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
         with:
           tag_name: ${{ github.ref }}
-          release_name: "dig-constants v${{ steps.extract_version.outputs.VERSION }}"
+          release_name: "dig-epoch v${{ steps.extract_version.outputs.VERSION }}"
           body: |
-            ## dig-constants v${{ steps.extract_version.outputs.VERSION }}
+            ## dig-epoch v${{ steps.extract_version.outputs.VERSION }}
 
-            DIG network constants — genesis challenge, consensus parameters, and network configuration.
+            DIG L2 epoch geometry, phase machine, manager, and checkpoint competition types.
 
             ### Installation
             ```toml
             [dependencies]
-            dig-constants = "${{ steps.extract_version.outputs.VERSION }}"
+            dig-epoch = "${{ steps.extract_version.outputs.VERSION }}"
             ```
           draft: false
           prerelease: false
