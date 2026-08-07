@@ -4,6 +4,11 @@ All notable changes to this project are documented here.
 This project adheres to [Semantic Versioning](https://semver.org) and
 [Conventional Commits](https://www.conventionalcommits.org).
 
+## [0.1.3] - 2026-08-07
+
+### CI
+- **dig-epoch:** Title GitHub Releases dig-epoch, not dig-constants (#2299)
+
 ## [0.1.2] - 2026-08-07
 
 ### Documentation
