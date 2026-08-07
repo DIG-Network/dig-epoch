@@ -4,6 +4,11 @@ All notable changes to this project are documented here.
 This project adheres to [Semantic Versioning](https://semver.org) and
 [Conventional Commits](https://www.conventionalcommits.org).
 
+## [0.1.2] - 2026-08-07
+
+### Documentation
+- **spec:** Land the root normative SPEC.md and name one canonical spec (#2)
+
 ## [0.1.1] - 2026-07-12
 
 ### Testing
