@@ -3,7 +3,8 @@
 DIG L2 epoch geometry, phase machine, manager, checkpoint competition, reward
 economics, verification, and serialization — as a single Rust crate.
 
-- **Canonical spec:** [`docs/resources/SPEC.md`](docs/resources/SPEC.md)
+- **Canonical spec:** [`SPEC.md`](SPEC.md) — the normative contract (RFC 2119).
+- **Design rationale (non-normative):** [`docs/resources/SPEC.md`](docs/resources/SPEC.md) — sizing arguments, requirement traceability, implementation ordering. Does not override `SPEC.md`.
 - **Requirements tree:** [`docs/requirements/README.md`](docs/requirements/README.md)
 - **Implementation checklist:** [`docs/requirements/IMPLEMENTATION_ORDER.md`](docs/requirements/IMPLEMENTATION_ORDER.md)
 - **Project notes:** [`CLAUDE.md`](CLAUDE.md)
