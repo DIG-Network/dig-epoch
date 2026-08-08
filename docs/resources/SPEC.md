@@ -52,7 +52,7 @@ The crate maximally reuses the Chia Rust ecosystem to avoid reimplementing produ
 | Crate | Version | Purpose |
 |-------|---------|---------|
 | `dig-block` | 0.1 | `Checkpoint`, `CheckpointSubmission`, `SignerBitmap`, `L2BlockHeader` types. `dig-epoch` manages competitions over these types and reads block headers for DFSP root extraction, but does not define them. |
-| `dig-constants` | 0.1 | Network-level constants: `NetworkConstants`, genesis challenge, network ID. |
+| `dig-constants` | 0.10 | Network-level constants: `NetworkConstants`, genesis challenge, network ID. Declared and linked, but not yet consumed: `dig-constants` 0.10 sits on the chia **0.36** cohort while this crate sits on **0.26/0.30**, so its chia types are distinct types from this crate's and MUST NOT be used until both cohorts converge. |
 | `chia-protocol` | 0.26 | Core protocol types: `Bytes32`. The universal 32-byte hash type used for hashes, Merkle roots, coin IDs, block hashes — everywhere in the epoch crate. |
 | `chia-bls` | 0.26 | BLS12-381 cryptography: `Signature`, `PublicKey`, `SecretKey`. Functions: `sign()`, `verify()`, `aggregate()`, `aggregate_verify()`. Used for checkpoint aggregate signature verification in competition scoring, and for `EpochCheckpointData` signing digest verification. |
 | `chia-consensus` | 0.26 | **Merkle set construction.** `compute_merkle_set_root()` — computes an order-independent Merkle set root identically to Chia L1. Used for DFSP namespace rollup and withdrawal root computation. `validate_merkle_proof()` — used for Merkle inclusion proof verification. |

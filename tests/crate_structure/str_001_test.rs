@@ -137,12 +137,18 @@ fn test_cargo_check() {
     }
 
     // Exact version pins called out in the spec. We accept two syntactic
-    // shapes because DIG crates currently require a path-override while
-    // unpublished (`{ version = "0.1", path = "..." }`), whereas the Chia
-    // crates are published and use the short form (`= "0.26"`).
+    // shapes — the short form (`dig-block = "0.1"`) and the table form
+    // (`dig-block = { version = "0.1", ... }`) — so a dep that later grows a
+    // feature list still satisfies the pin check.
+    //
+    // `dig-constants` is pinned to `0.10`, one chia cohort ahead of the rest
+    // of this manifest (see the Cargo.toml comment on that dependency). The
+    // pin is asserted here so an accidental drift back to `0.1`, or forward
+    // past `0.10`, is caught rather than silently changing which chia cohort
+    // gets linked.
     let pinned = [
         ("dig-block", "0.1"),
-        ("dig-constants", "0.1"),
+        ("dig-constants", "0.10"),
         ("chia-protocol", "0.26"),
         ("chia-bls", "0.26"),
         ("chia-consensus", "0.26"),
@@ -374,13 +380,18 @@ fn str_001_other_required_crates_link() {
 /// to be reachable via a `use` of its root module via an attribute-gated
 /// `extern crate` pattern that always resolves in Rust 2021 when the crate
 /// is in `[dependencies]`.
+///
+/// Deliberately symbol-free: dig-constants sits on the chia 0.36 cohort while
+/// this crate sits on 0.26, so any chia-typed value borrowed from it would be
+/// a different type than this crate's and would not compile. Linkage is all
+/// STR-001 requires and all that is safe to assert until the cohorts converge.
 #[test]
 fn str_001_dig_constants_resolves() {
     // The simplest way to force `dig-constants` to be linked by this test
     // binary without depending on a specific public item (which may change
-    // between 0.1 patch releases) is to reference it via a no-op `use` of
-    // its crate root. Rust 2021 treats `extern crate` as implicit, so a bare
-    // `use dig_constants as _;` both silences the unused-import lint and
-    // forces resolution.
+    // between minor releases of a 0.x crate) is to reference it via a no-op
+    // `use` of its crate root. Rust 2021 treats `extern crate` as implicit,
+    // so a bare `use dig_constants as _;` both silences the unused-import
+    // lint and forces resolution.
     use dig_constants as _;
 }
