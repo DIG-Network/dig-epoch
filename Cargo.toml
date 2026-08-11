@@ -11,10 +11,13 @@
 # STR-001 mandates an exact dependency set with exact version pins. DO NOT
 # upgrade any pinned version without first amending the spec — the Chia
 # ecosystem version skew here (0.26 vs 0.30) is intentional and matches the
-# sibling crates `dig-block` and `dig-constants`.
+# sibling crate `dig-block`.
 #
 # Versioning rules (from SPEC §1.2):
-#   * DIG ecosystem crates (`dig-block`, `dig-constants`) are pinned to `0.1`.
+#   * `dig-block` is pinned to `0.1` (chia 0.26/0.30 cohort, same as this
+#     crate). `dig-constants` is pinned to `0.10` — the latest published line,
+#     which sits on the chia 0.36 cohort; see the dependency comment below for
+#     why that split is safe today and what it forbids.
 #   * Chia low-level crates (`chia-protocol`, `chia-bls`, `chia-consensus`,
 #     `chia-sha2`, `clvm-utils`) are pinned to `0.26`.
 #   * Chia SDK crates (`chia-sdk-types`, `chia-sdk-signer`) are pinned to
@@ -35,7 +38,7 @@
 
 [package]
 name = "dig-epoch"
-version = "0.1.3"
+version = "0.1.4"
 edition = "2021"
 rust-version = "1.75.0"
 description = "DIG L2 epoch geometry, phase machine, manager, and checkpoint competition types"
@@ -66,31 +69,39 @@ path = "src/lib.rs"
 [dependencies]
 
 # --- DIG ecosystem ----------------------------------------------------------
-# **Bootstrap note (mirrors `dig-blockstore`'s Cargo.toml):** `dig-block` and
-# `dig-constants` are not yet published on crates.io, so we declare them with
-# a `version = "0.1"` pin AND a `path = "..."` fallback to the sibling
-# repository checkout. Cargo treats the `version` as the authoritative
-# constraint for transitive resolution and publication (it would refuse to
-# publish with an unresolved path-only dep), while the `path` lets the crate
-# build locally today. Once these crates are published, the `path` entries
-# can be removed with no semantic change.
-#
-# Paths are expressed relative to THIS manifest. This crate is developed
-# inside an isolated worktree at
-# `dig-epoch/` itself, so `dig-block` and `dig-constants` sit one level up
-# under `dig_network/` as direct siblings.
+# Both crates are published on crates.io and are consumed from there — never
+# via a `path = "..."` override. (An earlier bootstrap note here described a
+# sibling-checkout path fallback; those entries no longer exist and the prose
+# has been removed so it cannot be mistaken for current practice.)
 #
 # `dig-block` provides canonical block/checkpoint wire types that dig-epoch
 # **must** re-use rather than redefine (start.md Hard Requirement 1):
 #   * Checkpoint, CheckpointSubmission
 #   * SignerBitmap
 #   * L2BlockHeader
+# The `0.1` caret admits the latest published 0.1.x (0.1.1 at time of
+# writing), whose dependency set is byte-identical to 0.1.0's.
 dig-block = "0.1"
 
 # `dig-constants` provides the NetworkConstants / genesis challenge / network
 # ID values dig-epoch needs when constructing EpochManager. Re-use rule:
 # start.md Hard Requirement 2.
-dig-constants = "0.1"
+#
+# !! DELIBERATE CHIA-COHORT SPLIT — READ BEFORE USING ANY `dig_constants`
+# !! TYPE IN THIS CRATE.
+# dig-constants 0.10 moved to the chia 0.36 cohort (chia-protocol ^0.36.1,
+# chia-consensus ^0.36.1, chia-sdk-types ^0.34), while dig-epoch and
+# `dig-block` remain on the chia 0.26/0.30 cohort. Cargo therefore links two
+# incompatible copies of chia-protocol/chia-consensus. That is currently
+# harmless *only* because dig-epoch consumes no API from dig-constants — the
+# dependency exists to satisfy STR-001 and is linked, not called.
+#
+# Consequence: a `Bytes32` (or any other chia type) obtained from
+# `dig-constants` is a DIFFERENT type from this crate's `chia_protocol::
+# Bytes32` and will not type-check. Do not reach for `dig_constants::
+# NetworkConstants` until dig-block and dig-epoch have both moved to the chia
+# 0.36 cohort and the graph re-converges.
+dig-constants = "0.10"
 
 # --- Chia ecosystem (low-level, 0.26 cohort) --------------------------------
 # `chia-protocol` — Bytes32 (32-byte hash type) used universally for state

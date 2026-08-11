@@ -11,7 +11,7 @@
 The crate's Cargo.toml MUST include the following dependencies with the specified versions:
 
 - `dig-block` = "0.1"
-- `dig-constants` = "0.1"
+- `dig-constants` = "0.10" (chia 0.36 cohort; linked but never called — see STR-001)
 - `chia-protocol` = "0.26"
 - `chia-bls` = "0.26"
 - `chia-consensus` = "0.26"
